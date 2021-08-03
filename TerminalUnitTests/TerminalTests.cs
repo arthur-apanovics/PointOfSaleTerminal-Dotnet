@@ -63,5 +63,24 @@ namespace TerminalUnitTests
                 Assert.Equal(priceMap.Value, sut.GetPrice(priceMap.Key));
             }
         }
+
+        [Fact]
+        public void GetPrice_UnsetProduct_ThrowsException()
+        {
+            Assert.Throws<KeyNotFoundException>(
+                () =>
+                {
+                    var sut = new PointOfSaleTerminal();
+                    var pricing = new Dictionary<string, decimal>
+                    {
+                        {"X", 0.01m}
+                    };
+
+                    sut.SetPricing(pricing);
+
+                    sut.GetPrice("Y");
+                }
+            );
+        }
     }
 }

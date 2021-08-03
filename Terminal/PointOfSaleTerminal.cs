@@ -32,6 +32,7 @@ namespace Terminal
                 return price;
             }
 
+            // could throw a custom exception but this one does the job
             throw new KeyNotFoundException($"No price found for product with code '{productCode}'");
         }
 
