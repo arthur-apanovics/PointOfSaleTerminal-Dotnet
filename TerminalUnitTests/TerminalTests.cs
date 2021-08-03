@@ -43,5 +43,25 @@ namespace TerminalUnitTests
                 }
             );
         }
+
+        [Fact]
+        public void SetPricing_MultipleProducts_SetsPricing()
+        {
+            var sut = new PointOfSaleTerminal();
+            var pricing = new Dictionary<string, decimal>
+            {
+                {"A", 1.25m},
+                {"B", 4.25m},
+                {"C", 1m},
+                {"D", 0.75m},
+            };
+
+            sut.SetPricing(pricing);
+
+            foreach (var priceMap in pricing)
+            {
+                Assert.Equal(priceMap.Value, sut.GetPrice(priceMap.Key));
+            }
+        }
     }
 }
