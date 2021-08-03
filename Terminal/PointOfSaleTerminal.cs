@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terminal.Contracts;
 
 namespace Terminal
@@ -10,6 +11,16 @@ namespace Terminal
 
         public void SetPricing(IDictionary<string, decimal> priceMap)
         {
+            if (priceMap.Any(x => x.Key == string.Empty))
+            {
+                throw new ArgumentException("Pricing contains invalid product code");
+            }
+
+            if (priceMap.Any(x => x.Value <= 0))
+            {
+                throw new ArgumentException("Pricing contains invalid product price");
+            }
+
             _productPriceMap = priceMap;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Terminal;
 using Xunit;
 
@@ -21,6 +22,26 @@ namespace TerminalUnitTests
             var actual = sut.GetPrice(productCode);
 
             Assert.Equal(productPrice, actual);
+        }
+
+        [Theory]
+        [InlineData("C", -4.25)]
+        [InlineData("D", 0)]
+        [InlineData("", 4.25)]
+        public void SetPricing_SingleProduct_ThrowsOnInvalidValues(string productCode, decimal productPrice)
+        {
+            Assert.Throws<ArgumentException>(
+                () =>
+                {
+                    var sut = new PointOfSaleTerminal();
+                    var pricing = new Dictionary<string, decimal>
+                    {
+                        {productCode, productPrice}
+                    };
+
+                    sut.SetPricing(pricing);
+                }
+            );
         }
     }
 }
