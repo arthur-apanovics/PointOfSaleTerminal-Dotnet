@@ -8,6 +8,7 @@ namespace Terminal
     public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
         private readonly List<IProduct> _loadedProducts = new();
+        private readonly List<IProduct> _scannedProducts = new();
 
         public void SetPricing(IEnumerable<IProduct> products)
         {
@@ -21,25 +22,41 @@ namespace Terminal
             _loadedProducts.AddRange(productArray);
         }
 
-        public decimal GetPrice(string productCode)
+        public decimal GetPrice(string code)
         {
-            var product = _loadedProducts.FirstOrDefault(p => p.Code == productCode);
-            if (product is not null)
+            var product = TryGetProductFromPricing(code);
+            if (product is null)
             {
-                return product.Price;
+                throw new ArgumentOutOfRangeException($"No price found for product with code '{code}'");
             }
 
-            throw new ArgumentOutOfRangeException($"No price found for product with code '{productCode}'");
+            return product.Price;
         }
 
         public void ScanProduct(string code)
         {
-            throw new NotImplementedException();
+            var product = TryGetProductFromPricing(code);
+            if (product is null)
+            {
+                throw new ArgumentException($"Product with code '{code}' not found in pricing list");
+            }
+
+            _scannedProducts.Add(product);
         }
 
         public decimal CalculateTotal()
         {
             throw new NotImplementedException();
+        }
+
+        public ICollection<IProduct> GetCart()
+        {
+            return _scannedProducts;
+        }
+
+        private IProduct? TryGetProductFromPricing(string code)
+        {
+            return _loadedProducts.FirstOrDefault(p => p.Code == code);
         }
     }
 }

@@ -75,5 +75,35 @@ namespace TerminalUnitTests
                 }
             );
         }
+
+        [Fact]
+        public void ScanProduct_MultipleProducts_StoresInCart()
+        {
+            var products = new[]
+            {
+                new Product("A", 1.25m),
+                new Product("B", 4.25m),
+            };
+            var sut = new TerminalBuilder().WithMultipleProducts(products).Build();
+
+            foreach (var product in products)
+            {
+                sut.ScanProduct(product.Code);
+            }
+
+            Assert.Equal(products.Length, sut.GetCart().Count);
+        }
+
+        [Fact]
+        public void ScanProduct_SingleProduct_ThrowsWhenCodeNotInPricingList()
+        {
+            Assert.Throws<ArgumentException>(
+                () =>
+                {
+                    var sut = new TerminalBuilder().WithSingleProduct("A", 1.25m).Build();
+
+                    sut.ScanProduct("X");
+                });
+        }
     }
 }
