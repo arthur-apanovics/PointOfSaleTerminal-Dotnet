@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Terminal;
 using Xunit;
 
@@ -44,6 +43,24 @@ namespace TerminalUnitTests
             {
                 Assert.Equal(product.Price, sut.GetPrice(product.Code));
             }
+        }
+
+        [Fact]
+        public void SetPricing_DuplicateProductCodes_ThrowsException()
+        {
+            Assert.Throws<ArgumentException>(
+                () =>
+                {
+                    var products = new[]
+                    {
+                        new Product("A", 1.25m),
+                        new Product("B", 4.25m),
+                        new Product("B", 1m),
+                    };
+
+                    new TerminalBuilder().WithMultipleProducts(products).Build();
+                }
+            );
         }
 
         [Fact]

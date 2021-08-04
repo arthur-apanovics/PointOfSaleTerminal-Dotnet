@@ -11,8 +11,14 @@ namespace Terminal
 
         public void SetPricing(IEnumerable<IProduct> products)
         {
+            var productArray = products as IProduct[] ?? products.ToArray();
+            if (productArray.GroupBy(p => p.Code).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("Pricing cannot contain duplicate product codes");
+            }
+
             _loadedProducts.Clear();
-            _loadedProducts.AddRange(products);
+            _loadedProducts.AddRange(productArray);
         }
 
         public decimal GetPrice(string productCode)
