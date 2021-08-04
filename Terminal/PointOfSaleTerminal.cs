@@ -7,33 +7,23 @@ namespace Terminal
 {
     public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
-        private IDictionary<string, decimal> _productPriceMap = new Dictionary<string, decimal>();
+        private readonly List<IProduct> _loadedProducts = new();
 
-        public void SetPricing(IDictionary<string, decimal> priceMap)
+        public void SetPricing(IEnumerable<IProduct> products)
         {
-            if (priceMap.Any(x => x.Key == string.Empty))
-            {
-                throw new ArgumentException("Pricing contains invalid product code");
-            }
-
-            if (priceMap.Any(x => x.Value <= 0))
-            {
-                throw new ArgumentException("Pricing contains invalid product price");
-            }
-
-            _productPriceMap = priceMap;
+            _loadedProducts.Clear();
+            _loadedProducts.AddRange(products);
         }
 
         public decimal GetPrice(string productCode)
         {
-            var found = _productPriceMap.TryGetValue(productCode, out var price);
-            if (found)
+            var product = _loadedProducts.FirstOrDefault(p => p.Code == productCode);
+            if (product is not null)
             {
-                return price;
+                return product.Price;
             }
 
-            // could throw a custom exception but this one does the job
-            throw new KeyNotFoundException($"No price found for product with code '{productCode}'");
+            throw new ArgumentOutOfRangeException($"No price found for product with code '{productCode}'");
         }
 
         public void ScanProduct(string code)

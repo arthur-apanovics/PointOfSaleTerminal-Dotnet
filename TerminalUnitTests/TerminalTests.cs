@@ -12,16 +12,9 @@ namespace TerminalUnitTests
         [InlineData("B", 4.25)]
         public void SetPricing_SingleProduct_SetsPrice(string productCode, decimal productPrice)
         {
-            var sut = new PointOfSaleTerminal();
-            var pricing = new Dictionary<string, decimal>
-            {
-                {productCode, productPrice}
-            };
+            var sut = new TerminalBuilder().WithSingleProduct(productCode, productPrice).Build();
 
-            sut.SetPricing(pricing);
-            var actual = sut.GetPrice(productCode);
-
-            Assert.Equal(productPrice, actual);
+            Assert.Equal(productPrice, sut.GetPrice(productCode));
         }
 
         [Theory]
@@ -31,52 +24,35 @@ namespace TerminalUnitTests
         public void SetPricing_SingleProduct_ThrowsOnInvalidValues(string productCode, decimal productPrice)
         {
             Assert.Throws<ArgumentException>(
-                () =>
-                {
-                    var sut = new PointOfSaleTerminal();
-                    var pricing = new Dictionary<string, decimal>
-                    {
-                        {productCode, productPrice}
-                    };
-
-                    sut.SetPricing(pricing);
-                }
+                () => { new TerminalBuilder().WithSingleProduct(productCode, productPrice).Build(); }
             );
         }
 
         [Fact]
         public void SetPricing_MultipleProducts_SetsPricing()
         {
-            var sut = new PointOfSaleTerminal();
-            var pricing = new Dictionary<string, decimal>
+            var products = new[]
             {
-                {"A", 1.25m},
-                {"B", 4.25m},
-                {"C", 1m},
-                {"D", 0.75m},
+                new Product("A", 1.25m),
+                new Product("B", 4.25m),
+                new Product("C", 1m),
+                new Product("D", 0.75m),
             };
+            var sut = new TerminalBuilder().WithMultipleProducts(products).Build();
 
-            sut.SetPricing(pricing);
-
-            foreach (var priceMap in pricing)
+            foreach (var product in products)
             {
-                Assert.Equal(priceMap.Value, sut.GetPrice(priceMap.Key));
+                Assert.Equal(product.Price, sut.GetPrice(product.Code));
             }
         }
 
         [Fact]
         public void GetPrice_UnsetProduct_ThrowsException()
         {
-            Assert.Throws<KeyNotFoundException>(
+            Assert.Throws<ArgumentOutOfRangeException>(
                 () =>
                 {
-                    var sut = new PointOfSaleTerminal();
-                    var pricing = new Dictionary<string, decimal>
-                    {
-                        {"X", 0.01m}
-                    };
-
-                    sut.SetPricing(pricing);
+                    var sut = new TerminalBuilder().WithSingleProduct("X", 0.01m).Build();
 
                     sut.GetPrice("Y");
                 }
