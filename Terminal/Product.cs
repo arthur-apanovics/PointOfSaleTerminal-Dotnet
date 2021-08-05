@@ -6,7 +6,7 @@ namespace Terminal
     public class Product : IProduct
     {
         private readonly decimal _price;
-        private readonly string _code;
+        private readonly string _code = string.Empty;
 
         public Product(string code, decimal price)
         {

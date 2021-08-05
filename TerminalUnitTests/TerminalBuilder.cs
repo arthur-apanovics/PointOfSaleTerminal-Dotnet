@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Terminal;
 using Terminal.Contracts;
 
 namespace TerminalUnitTests
 {
+    [ExcludeFromCodeCoverage]
     internal class TerminalBuilder
     {
         private readonly List<IProduct> _products = new();
+        private IPromotionStrategy? _promotionStrategy = null;
 
         public PointOfSaleTerminal Build()
         {
             var terminal = new PointOfSaleTerminal();
-
-            if (_products.Count > 0)
-            {
-                terminal.SetPricing(_products);
-            }
+            terminal.SetPricing(_products, _promotionStrategy);
 
             return terminal;
         }
@@ -39,6 +38,13 @@ namespace TerminalUnitTests
         {
             _products.Clear();
             _products.AddRange(products);
+
+            return this;
+        }
+
+        public TerminalBuilder WithPromotionStrategy(IPromotionStrategy promotionStrategy)
+        {
+            _promotionStrategy = promotionStrategy;
 
             return this;
         }
