@@ -1,7 +1,7 @@
 ﻿using System;
 using Terminal.Contracts;
 
-namespace Terminal
+namespace Terminal.Models
 {
     public class Product : IProduct
     {

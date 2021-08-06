@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Terminal;
 using Terminal.Contracts;
 using Terminal.Discounts;
+using Terminal.Models;
 using Xunit;
 
 namespace TerminalUnitTests

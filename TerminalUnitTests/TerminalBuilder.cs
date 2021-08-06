@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Terminal;
 using Terminal.Contracts;
+using Terminal.Models;
 
 namespace TerminalUnitTests
 {
