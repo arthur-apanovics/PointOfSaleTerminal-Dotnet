@@ -117,7 +117,7 @@ namespace TerminalUnitTests
         [InlineData(new[]{"B","B","B","D","D", "D",}, 15)]
         [InlineData(new[]{"D",}, 0.75)]
         [InlineData(new string[]{}, 0)]
-        public void CalculateTotal_AppliesDiscount_BulkDiscountStrategy(string[] codes, decimal expected)
+        public void CalculateTotal_WithBulkDiscount_CalculatesTotal(string[] codes, decimal expected)
         {
             var pricing = new List<IProduct>
             {
@@ -137,6 +137,30 @@ namespace TerminalUnitTests
             var sut = new TerminalBuilder().WithMultipleProducts(pricing)
                 .WithPromotionStrategy(bulkPricing)
                 .Build();
+
+            foreach (var code in codes)
+            {
+                sut.ScanProduct(code);
+            }
+
+            Assert.Equal(expected, sut.CalculateTotal());
+        }
+
+        [Theory]
+        [InlineData(new[]{"A","B","C","D","A","B","A",}, 14)]
+        [InlineData(new[]{"C","C","C","C","C","C","C",}, 7)]
+        [InlineData(new[]{"A","B","C","D",}, 7.25)]
+        public void CalculateTotal_NoDiscount_CalculatesTotal(string[] codes, decimal expected)
+        {
+            var pricing = new List<IProduct>
+            {
+                new Product("A", 1.25m),
+                new Product("B", 4.25m),
+                new Product("C", 1m),
+                new Product("D", 0.75m),
+            };
+
+            var sut = new TerminalBuilder().WithMultipleProducts(pricing).Build();
 
             foreach (var code in codes)
             {
