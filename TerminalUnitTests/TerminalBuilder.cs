@@ -10,7 +10,7 @@ namespace TerminalUnitTests
     internal class TerminalBuilder
     {
         private readonly List<IProduct> _products = new();
-        private IPromotionStrategy? _promotionStrategy = null;
+        private IDiscountStrategy? _promotionStrategy = null;
 
         public PointOfSaleTerminal Build()
         {
@@ -43,9 +43,9 @@ namespace TerminalUnitTests
             return this;
         }
 
-        public TerminalBuilder WithPromotionStrategy(IPromotionStrategy promotionStrategy)
+        public TerminalBuilder WithPromotionStrategy(IDiscountStrategy discountStrategy)
         {
-            _promotionStrategy = promotionStrategy;
+            _promotionStrategy = discountStrategy;
 
             return this;
         }

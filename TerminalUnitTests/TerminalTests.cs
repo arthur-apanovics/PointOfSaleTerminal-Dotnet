@@ -127,7 +127,7 @@ namespace TerminalUnitTests
                 new Product("D", 0.75m),
             };
 
-            var bulkPricing = new BulkPromotionStrategy();
+            var bulkPricing = new BulkDiscountStrategy();
             bulkPricing.LoadBulkPricing(new Dictionary<string, KeyValuePair<int, decimal>>
             {
                 {"A", new KeyValuePair<int, decimal>(3, 3m)},

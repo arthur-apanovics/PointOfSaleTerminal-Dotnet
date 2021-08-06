@@ -4,7 +4,7 @@ namespace Terminal.Contracts
 {
     public interface IPointOfSaleTerminal
     {
-        void SetPricing(IEnumerable<IProduct> products, IPromotionStrategy? promotionStrategy = null);
+        void SetPricing(IEnumerable<IProduct> products, IDiscountStrategy? promotionStrategy = null);
         void ScanProduct(string code);
         decimal CalculateTotal();
     }

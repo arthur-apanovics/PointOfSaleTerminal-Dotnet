@@ -2,7 +2,7 @@
 
 namespace Terminal.Contracts
 {
-    public interface IPromotionStrategy
+    public interface IDiscountStrategy
     {
         public decimal CalculateTotalWithDiscounts(IEnumerable<IProduct> cart);
     }

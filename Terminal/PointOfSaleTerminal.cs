@@ -7,11 +7,11 @@ namespace Terminal
 {
     public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
-        private IPromotionStrategy? _promotionStrategy;
+        private IDiscountStrategy? _promotionStrategy;
         private readonly List<IProduct> _loadedProducts = new();
         private readonly List<IProduct> _scannedProducts = new();
 
-        public void SetPricing(IEnumerable<IProduct> products, IPromotionStrategy? promotionStrategy = null)
+        public void SetPricing(IEnumerable<IProduct> products, IDiscountStrategy? promotionStrategy = null)
         {
             var productArray = products as IProduct[] ?? products.ToArray();
             if (productArray.GroupBy(p => p.Code).Any(g => g.Count() > 1))

@@ -5,7 +5,7 @@ using Terminal.Contracts;
 
 namespace Terminal.Discounts
 {
-    public class BulkPromotionStrategy : IPromotionStrategy
+    public class BulkDiscountStrategy : IDiscountStrategy
     {
         private Dictionary<string, KeyValuePair<int, decimal>> _bulkPricing = new();
 
