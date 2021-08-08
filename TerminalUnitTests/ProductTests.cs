@@ -16,7 +16,9 @@ namespace TerminalUnitTests
         [InlineData(null, 1.5)]
         public void Product_Properties_ThrowsOnInvalidValues(string code, decimal price)
         {
-            Assert.Throws<ArgumentException>(() => new Product(code, price));
+            Action sut = () => new Product(code, price);
+
+            Assert.Throws<ArgumentException>(sut);
         }
     }
 }

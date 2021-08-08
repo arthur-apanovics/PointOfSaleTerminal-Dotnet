@@ -1,69 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terminal.Contracts;
 
 namespace Terminal
 {
     public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
-        private IDiscountStrategy? _promotionStrategy;
-        private readonly List<IProduct> _loadedProducts = new();
-        private readonly List<IProduct> _scannedProducts = new();
+        private IPricingStrategy? _pricingStrategy;
+        private readonly List<string> _scannedProductCodes = new();
 
-        public void SetPricing(IEnumerable<IProduct> products, IDiscountStrategy? promotionStrategy = null)
+        public void SetPricing(IPricingStrategy pricingStrategy)
         {
-            var productArray = products as IProduct[] ?? products.ToArray();
-            if (productArray.GroupBy(p => p.Code).Any(g => g.Count() > 1))
-            {
-                throw new ArgumentException("Pricing cannot contain duplicate product codes");
-            }
-
-            _loadedProducts.Clear();
-            _loadedProducts.AddRange(productArray);
-
-            if (promotionStrategy is not null)
-            {
-                _promotionStrategy = promotionStrategy;
-            }
-        }
-
-        public decimal GetPrice(string code)
-        {
-            var product = TryGetProductFromPricing(code);
-            if (product is null)
-            {
-                throw new ArgumentOutOfRangeException($"No price found for product with code '{code}'");
-            }
-
-            return product.Price;
+            _pricingStrategy = pricingStrategy;
         }
 
         public void ScanProduct(string code)
         {
-            var product = TryGetProductFromPricing(code);
-            if (product is null)
-            {
-                throw new ArgumentException($"Product with code '{code}' not found in pricing list");
-            }
+            CheckPricingStrategySetOrThrow();
 
-            _scannedProducts.Add(product);
+            if (!_pricingStrategy!.HasPricing(code))
+                throw new ArgumentException($"Product with code '{code}' not found in pricing list");
+
+            _scannedProductCodes.Add(code);
         }
 
         public decimal CalculateTotal()
         {
-            return _promotionStrategy?.CalculateTotalWithDiscounts(GetCart()) ??
-                   _scannedProducts.Sum(product => product.Price);
+            CheckPricingStrategySetOrThrow();
+
+            return _pricingStrategy!.CalculateTotal(_scannedProductCodes);
         }
 
-        public ICollection<IProduct> GetCart()
+        // Note: A constructor with a pricing strategy argument would be
+        // preferred to prevent null references (not implemented to comply
+        // with top-level interface example in exercise description).
+        private void CheckPricingStrategySetOrThrow()
         {
-            return _scannedProducts;
-        }
-
-        private IProduct? TryGetProductFromPricing(string code)
-        {
-            return _loadedProducts.FirstOrDefault(p => p.Code == code);
+            if (_pricingStrategy is null)
+            {
+                throw new NullReferenceException(
+                    $"{nameof(PointOfSaleTerminal)} has no pricing strategy set. Use {nameof(SetPricing)} to set one."
+                );
+            }
         }
     }
 }
