@@ -11,10 +11,10 @@ namespace Terminal.Pricing
     {
         private readonly Dictionary<string, BulkPrice> _codeToBulkPriceMap;
 
-        public BulkPricingStrategy(IEnumerable<Product> pricing, IEnumerable<BulkProduct> bulkPrices)
+        public BulkPricingStrategy(IEnumerable<Product> pricing, IEnumerable<BulkProduct> bulkPricing)
             : base(pricing)
         {
-            var bulkPriceList = bulkPrices.ToList();
+            var bulkPriceList = bulkPricing.ToList();
             ValidatePricingOrThrow(bulkPriceList);
             _codeToBulkPriceMap = bulkPriceList.ToDictionary(b => b.Code, b => b.BulkPrice);
         }
