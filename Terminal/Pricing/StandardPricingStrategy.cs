@@ -25,11 +25,10 @@ namespace Terminal.Pricing
 
         public decimal GetPrice(string code)
         {
-            var price = TryGetPrice(code);
-            if (price is null)
+            if (!HasPricing(code))
                 throw new ArgumentOutOfRangeException($"No price found for product with code '{code}'");
 
-            return (decimal) price;
+            return _codeToPriceMap[code];
         }
 
         public decimal CalculateTotal(string code, int quantity)
@@ -76,11 +75,6 @@ namespace Terminal.Pricing
 
             if (pricing.HasDuplicates(x => x.Code))
                 throw new ArgumentException("Pricing cannot contain duplicate product codes");
-        }
-
-        private decimal? TryGetPrice(string code)
-        {
-            return HasPricing(code) ? _codeToPriceMap[code] : null;
         }
     }
 }
