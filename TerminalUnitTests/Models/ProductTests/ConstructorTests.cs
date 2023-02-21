@@ -1,17 +1,19 @@
 ﻿using System;
 using Terminal.Models;
 
-namespace TerminalUnitTests.Models.BulkPriceTests;
+namespace TerminalUnitTests.Models.ProductTests;
 
 public class ConstructorTests
 {
     [Theory]
-    [InlineData(0)]
-    [InlineData(-3)]
-    public void ThrowsWhenThresholdValueNotValid(int threshold)
+    [MemberData(
+        nameof(TestDataProviders.InvalidProductCodes),
+        MemberType = typeof(TestDataProviders)
+    )]
+    public void ThrowsWhenProductCodeNotValid(string code)
     {
         // Arrange
-        var actual = () => new BulkPrice(threshold, price: 3m);
+        var actual = () => new Product(code, price: 3m);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -22,10 +24,10 @@ public class ConstructorTests
         nameof(TestDataProviders.InvalidProductPrices),
         MemberType = typeof(TestDataProviders)
     )]
-    public void ThrowsWhenBulkPriceValueNotValid(decimal price)
+    public void ThrowsWhenProductPriceNotValid(decimal price)
     {
         // Arrange
-        var actual = () => new BulkPrice(threshold: 3, price);
+        var actual = () => new Product(code: "X", price);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();

@@ -7,12 +7,10 @@ namespace TerminalUnitTests.Models.BulkProductTests;
 public class ConstructorTests
 {
     [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(" A")]
-    [InlineData(" A ")]
-    [InlineData("A ")]
+    [MemberData(
+        nameof(TestDataProviders.InvalidProductCodes),
+        MemberType = typeof(TestDataProviders)
+    )]
     public void ThrowsWhenProductCodeValueNotValid(string productCode)
     {
         // Arrange
