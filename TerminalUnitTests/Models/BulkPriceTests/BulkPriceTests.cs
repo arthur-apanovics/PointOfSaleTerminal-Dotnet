@@ -2,7 +2,7 @@
 using Terminal.Models;
 using Xunit;
 
-namespace TerminalUnitTests;
+namespace TerminalUnitTests.Models.BulkPriceTests;
 
 public class BulkPriceTests
 {
@@ -17,8 +17,10 @@ public class BulkPriceTests
         decimal price
     )
     {
-        Action sut = () => new BulkPrice(threshold, price);
+        // Arrange
+        var actual = () => new BulkPrice(threshold, price);
 
-        Assert.Throws<ArgumentException>(sut);
+        // Act/Assert
+        actual.Should().ThrowExactly<ArgumentException>();
     }
 }
