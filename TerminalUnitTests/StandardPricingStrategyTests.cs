@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Terminal.Models;
 using TerminalUnitTests.Builders;
-using Xunit;
 
 namespace TerminalUnitTests;
 

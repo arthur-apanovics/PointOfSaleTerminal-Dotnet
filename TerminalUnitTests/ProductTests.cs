@@ -1,6 +1,5 @@
 ﻿using System;
 using Terminal.Models;
-using Xunit;
 
 namespace TerminalUnitTests;
 

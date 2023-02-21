@@ -4,7 +4,6 @@ using Terminal;
 using Terminal.Models;
 using Terminal.Pricing;
 using TerminalUnitTests.Builders;
-using Xunit;
 
 namespace TerminalUnitTests;
 
