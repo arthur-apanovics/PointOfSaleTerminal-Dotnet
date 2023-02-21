@@ -5,76 +5,86 @@ using Terminal.Common;
 using Terminal.Contracts;
 using Terminal.Models;
 
-namespace Terminal.Pricing
+namespace Terminal.Pricing;
+
+public class StandardPricingStrategy : IPricingStrategy
 {
-    public class StandardPricingStrategy : IPricingStrategy
+    private readonly Dictionary<string, decimal> _codeToPriceMap;
+
+    public StandardPricingStrategy(IEnumerable<Product> pricing)
     {
-        private readonly Dictionary<string, decimal> _codeToPriceMap;
+        var productList = pricing.ToList();
+        ValidatePricingOrThrow(productList);
+        _codeToPriceMap = productList.ToDictionary(p => p.Code, p => p.Price);
+    }
 
-        public StandardPricingStrategy(IEnumerable<Product> pricing)
+    public bool HasPricing(string code)
+    {
+        return _codeToPriceMap.ContainsKey(code);
+    }
+
+    public decimal GetPrice(string code)
+    {
+        if (!HasPricing(code))
+            throw new ArgumentOutOfRangeException(
+                $"No price found for product with code '{code}'"
+            );
+
+        return _codeToPriceMap[code];
+    }
+
+    public decimal CalculateTotal(string code, int quantity)
+    {
+        return quantity switch
         {
-            var productList = pricing.ToList();
-            ValidatePricingOrThrow(productList);
-            _codeToPriceMap = productList.ToDictionary(p => p.Code, p => p.Price);
-        }
+            0 => 0,
+            < 0 => throw new ArgumentException(
+                "Cannot calculate total for negative quantities"
+            ),
+            _ => CalculateTotalWithoutGuards(code, quantity)
+        };
+    }
 
-        public bool HasPricing(string code)
-        {
-            return _codeToPriceMap.ContainsKey(code);
-        }
+    public decimal CalculateTotal(IEnumerable<string> codes)
+    {
+        var codeList = codes.ToList();
+        if (!codeList.Any())
+            return 0;
 
-        public decimal GetPrice(string code)
-        {
-            if (!HasPricing(code))
-                throw new ArgumentOutOfRangeException($"No price found for product with code '{code}'");
+        decimal result = 0;
+        var codeToQuantity = GroupByCode(codeList);
 
-            return _codeToPriceMap[code];
-        }
+        foreach (var (code, quantity) in codeToQuantity)
+            result += CalculateTotal(code, quantity);
 
-        public decimal CalculateTotal(string code, int quantity)
-        {
-            return quantity switch
-            {
-                0 => 0,
-                < 0 => throw new ArgumentException("Cannot calculate total for negative quantities"),
-                _ => CalculateTotalWithoutGuards(code, quantity)
-            };
-        }
+        return result;
+    }
 
-        public decimal CalculateTotal(IEnumerable<string> codes)
-        {
-            var codeList = codes.ToList();
-            if (!codeList.Any())
-                return 0;
+    protected virtual decimal CalculateTotalWithoutGuards(
+        string code,
+        int quantity
+    )
+    {
+        return GetPrice(code) * quantity;
+    }
 
-            decimal result = 0;
-            var codeToQuantity = GroupByCode(codeList);
+    private static Dictionary<string, int> GroupByCode(
+        IEnumerable<string> codes
+    )
+    {
+        return codes.GroupBy(c => c).ToDictionary(x => x.Key, z => z.Count());
+    }
 
-            foreach (var (code, quantity) in codeToQuantity)
-            {
-                result += CalculateTotal(code, quantity);
-            }
+    private static void ValidatePricingOrThrow(
+        IReadOnlyCollection<Product> pricing
+    )
+    {
+        if (!pricing.Any())
+            throw new ArgumentException("Pricing cannot be empty");
 
-            return result;
-        }
-
-        protected virtual decimal CalculateTotalWithoutGuards(string code, int quantity)
-        {
-            return GetPrice(code) * quantity;
-        }
-
-        private static Dictionary<string, int> GroupByCode(IEnumerable<string> codes)
-        {
-            return codes.GroupBy(c => c).ToDictionary(x => x.Key, z => z.Count());
-        }
-
-        private static void ValidatePricingOrThrow(IReadOnlyCollection<Product> pricing)
-        {
-            if (!pricing.Any())
-                throw new ArgumentException("Pricing cannot be empty");
-
-            if (pricing.HasDuplicates(x => x.Code))
-                throw new ArgumentException("Pricing cannot contain duplicate product codes");
-        }
+        if (pricing.HasDuplicates(x => x.Code))
+            throw new ArgumentException(
+                "Pricing cannot contain duplicate product codes"
+            );
     }
 }
