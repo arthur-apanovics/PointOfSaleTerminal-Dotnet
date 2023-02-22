@@ -3,27 +3,10 @@ using Terminal.Common;
 
 namespace Terminal.Models;
 
-public readonly struct BulkProductPrice
+public record BulkProductPrice
 {
-    /// <summary>
-    ///     Represents a quantity at which a special price is applied.
-    /// </summary>
-    /// <param name="bulkThreshold">
-    ///     <see cref="BulkThreshold" />
-    /// </param>
-    /// <param name="bulkPrice">
-    ///     <see cref="BulkPrice" />
-    /// </param>
-    /// <exception cref="ArgumentException">If values are not valid</exception>
-    public BulkProductPrice(int bulkThreshold, decimal bulkPrice)
+    private BulkProductPrice(int bulkThreshold, decimal bulkPrice)
     {
-        if (bulkThreshold <= 0)
-            throw new ArgumentException(
-                "Bulk threshold cannot be less than or equal to zero"
-            );
-
-        ProductValidationHelper.ValidatePriceOrThrow(bulkPrice);
-
         BulkThreshold = bulkThreshold;
         BulkPrice = bulkPrice;
     }
@@ -38,4 +21,26 @@ public readonly struct BulkProductPrice
     ///     Special price for bulk threshold.
     /// </summary>
     public decimal BulkPrice { get; }
+
+    /// <summary>
+    ///     Represents a quantity at which a special price is applied.
+    /// </summary>
+    /// <param name="bulkThreshold">
+    ///     <see cref="BulkThreshold" />
+    /// </param>
+    /// <param name="bulkPrice">
+    ///     <see cref="BulkPrice" />
+    /// </param>
+    /// <exception cref="ArgumentException">If values are not valid</exception>
+    public static BulkProductPrice Create(int bulkThreshold, decimal bulkPrice)
+    {
+        if (bulkThreshold <= 0)
+            throw new ArgumentException(
+                "Bulk threshold cannot be less than or equal to zero"
+            );
+
+        ProductValidationHelper.ValidatePriceOrThrow(bulkPrice);
+
+        return new BulkProductPrice(bulkThreshold, bulkPrice);
+    }
 }

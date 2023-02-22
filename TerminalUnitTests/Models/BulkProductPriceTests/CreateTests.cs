@@ -12,7 +12,7 @@ public class ConstructorTests
     public void ThrowsWhenThresholdValueNotValid(int threshold)
     {
         // Arrange
-        var actual = () => new BulkProductPrice(threshold, bulkPrice: 3m);
+        var actual = () => BulkProductPrice.Create(threshold, bulkPrice: 3m);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -26,7 +26,7 @@ public class ConstructorTests
     public void ThrowsWhenBulkPriceValueNotValid(decimal price)
     {
         // Arrange
-        var actual = () => new BulkProductPrice(bulkThreshold: 3, price);
+        var actual = () => BulkProductPrice.Create(bulkThreshold: 3, price);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();

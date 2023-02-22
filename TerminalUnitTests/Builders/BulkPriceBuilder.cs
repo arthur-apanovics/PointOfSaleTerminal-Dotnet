@@ -8,5 +8,5 @@ public static class BulkPriceBuilder
         int? withThreshold = null,
         decimal? withPrice = null
     ) =>
-        new(withThreshold ?? 3, withPrice ?? 3m);
+        BulkProductPrice.Create(withThreshold ?? 3, withPrice ?? 3m);
 }
