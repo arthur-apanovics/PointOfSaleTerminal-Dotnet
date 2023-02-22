@@ -25,7 +25,7 @@ public class ConstructorTests
     public void ThrowsWhenDuplicateProductCodePresentInPricing()
     {
         // Arrange
-        var invalidPricing = new[]
+        var pricingWithDuplicates = new[]
         {
             ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
             ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
@@ -34,7 +34,7 @@ public class ConstructorTests
 
         // Act
         var actual = () => StandardPricingStrategyBuilder.Build(
-            withProductPricing: invalidPricing
+            withProductPricing: pricingWithDuplicates
         );
 
         // Assert
