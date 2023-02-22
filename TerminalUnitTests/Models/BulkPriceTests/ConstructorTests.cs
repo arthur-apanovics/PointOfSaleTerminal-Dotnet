@@ -1,5 +1,6 @@
 ﻿using System;
 using Terminal.Models;
+using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests.Models.BulkPriceTests;
 
@@ -19,8 +20,8 @@ public class ConstructorTests
 
     [Theory]
     [MemberData(
-        nameof(TestDataProviders.InvalidProductPrices),
-        MemberType = typeof(TestDataProviders)
+        nameof(ProductValueProviders.InvalidProductPrices),
+        MemberType = typeof(ProductValueProviders)
     )]
     public void ThrowsWhenBulkPriceValueNotValid(decimal price)
     {

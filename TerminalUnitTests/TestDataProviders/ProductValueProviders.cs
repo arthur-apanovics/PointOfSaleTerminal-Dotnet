@@ -1,10 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TerminalUnitTests.Models;
+namespace TerminalUnitTests.TestDataProviders;
 
-public class TestDataProviders
+public class ProductValueProviders
 {
+    private static readonly string[] ValidProductCodeValues =
+    {
+        "A",
+        "B",
+        "C",
+        "D",
+        "Coke",
+        "ProductThatHasSomewhatOfALengthyNameThatProbablyShouldNotBeThatLongInTheFirstPlace",
+    };
+
     private static readonly string?[] InvalidProductCodeValues =
     {
         null, "", " ", " A", " A ", "A ", "A B"
@@ -14,6 +24,9 @@ public class TestDataProviders
     {
         0m, -1m, decimal.MinValue
     };
+
+    public static IEnumerable<object[]> ValidProductCodes() =>
+        ValidProductCodeValues.Select(code => new object[] { code });
 
     public static IEnumerable<object[]> InvalidProductCodes() =>
         InvalidProductCodeValues.Select(code => new object[] { code! });

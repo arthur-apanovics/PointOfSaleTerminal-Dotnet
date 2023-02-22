@@ -1,6 +1,7 @@
 using System;
 using Terminal.Models;
 using TerminalUnitTests.Builders;
+using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests.Models.BulkProductTests;
 
@@ -8,8 +9,8 @@ public class ConstructorTests
 {
     [Theory]
     [MemberData(
-        nameof(TestDataProviders.InvalidProductCodes),
-        MemberType = typeof(TestDataProviders)
+        nameof(ProductValueProviders.InvalidProductCodes),
+        MemberType = typeof(ProductValueProviders)
     )]
     public void ThrowsWhenProductCodeValueNotValid(string productCode)
     {
