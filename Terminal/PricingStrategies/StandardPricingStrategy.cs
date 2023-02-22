@@ -10,7 +10,7 @@ public class StandardPricingStrategy : IPricingStrategy
 {
     private readonly Dictionary<string, decimal> _codeToPriceMap;
 
-    public StandardPricingStrategy(IEnumerable<Product> pricing)
+    public StandardPricingStrategy(IEnumerable<ProductPrice> pricing)
     {
         var productList = pricing.ToList();
         ValidatePricingOrThrow(productList);
@@ -75,7 +75,7 @@ public class StandardPricingStrategy : IPricingStrategy
     }
 
     private static void ValidatePricingOrThrow(
-        IReadOnlyCollection<Product> pricing
+        IReadOnlyCollection<ProductPrice> pricing
     )
     {
         if (!pricing.Any())

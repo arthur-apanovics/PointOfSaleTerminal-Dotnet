@@ -7,16 +7,16 @@ namespace TerminalUnitTests.Builders.PricingStrategies;
 
 public static class StandardPricingStrategyBuilder
 {
-    private static readonly Product[] DefaultPricing =
+    private static readonly ProductPrice[] DefaultPricing =
     {
-        ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-        ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-        ProductBuilder.Build(withCode: "C", withPrice: 1m),
-        ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+        ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+        ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+        ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
+        ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
     };
 
     public static StandardPricingStrategy Build(
-        IEnumerable<Product>? withProductPricing = null
+        IEnumerable<ProductPrice>? withProductPricing = null
     ) =>
         new(withProductPricing ?? DefaultPricing);
 }

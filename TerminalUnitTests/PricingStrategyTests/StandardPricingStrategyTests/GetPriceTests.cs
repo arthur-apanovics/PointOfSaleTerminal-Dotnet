@@ -16,7 +16,7 @@ public class GetPriceTests
         var strategy = StandardPricingStrategyBuilder.Build(
             withProductPricing: new[]
             {
-                ProductBuilder.Build(
+                ProductPriceBuilder.Build(
                     withCode: productCode,
                     withPrice: expectedPrice
                 )
@@ -35,7 +35,7 @@ public class GetPriceTests
     {
         // Arrange
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: new[] { ProductBuilder.Build(withCode: "Foo") }
+            withProductPricing: new[] { ProductPriceBuilder.Build(withCode: "Foo") }
         );
 
         // Act

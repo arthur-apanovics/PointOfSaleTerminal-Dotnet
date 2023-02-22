@@ -2,11 +2,11 @@ using Terminal.Models;
 
 namespace TerminalUnitTests.Builders.Models;
 
-public static class ProductBuilder
+public static class ProductPriceBuilder
 {
-    public static Product Build(
+    public static ProductPrice Build(
         string? withCode = null,
         decimal? withPrice = null
     ) =>
-        Product.Create(withCode ?? "A", withPrice ?? 1.25m);
+        ProductPrice.Create(withCode ?? "A", withPrice ?? 1.25m);
 }

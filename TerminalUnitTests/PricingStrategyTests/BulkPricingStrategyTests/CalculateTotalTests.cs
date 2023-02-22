@@ -14,7 +14,7 @@ public class CalculateTotalTests
         MemberType = typeof(BulkPricingProviders)
     )]
     public void CalculatesExpectedTotalsForProductCodeSequences(
-        Product[] pricing,
+        ProductPrice[] pricing,
         BulkProduct[] bulkPricing,
         string[] productCodes,
         decimal expectedTotal
@@ -41,7 +41,7 @@ public class CalculateTotalTests
         MemberType = typeof(BulkPricingProviders)
     )]
     public void CalculatesExpectedTotalsForSpecifiedProductQuantities(
-        Product[] pricing,
+        ProductPrice[] pricing,
         BulkProduct[] bulkPricing,
         string productCode,
         int productQuantity,
@@ -70,7 +70,7 @@ public class CalculateTotalTests
         const string productCode = "X";
         var strategy = BulkPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
-                withProductPricing: new[] { ProductBuilder.Build(productCode) }
+                withProductPricing: new[] { ProductPriceBuilder.Build(productCode) }
             )
         );
 

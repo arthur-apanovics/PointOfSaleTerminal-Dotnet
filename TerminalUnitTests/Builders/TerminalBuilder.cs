@@ -10,7 +10,7 @@ namespace TerminalUnitTests.Builders;
 [ExcludeFromCodeCoverage]
 internal class TerminalBuilder
 {
-    private readonly List<Product> _products = new();
+    private readonly List<ProductPrice> _products = new();
     private IPricingStrategy? _pricingStrategy;
 
     public PointOfSaleTerminal Build()
@@ -24,22 +24,22 @@ internal class TerminalBuilder
         return terminal;
     }
 
-    public TerminalBuilder WithSingleProduct(Product product)
+    public TerminalBuilder WithSingleProduct(ProductPrice productPrice)
     {
         _products.Clear();
-        _products.Add(product);
+        _products.Add(productPrice);
 
         return this;
     }
 
     public TerminalBuilder WithSingleProduct(string code, decimal price)
     {
-        var product = ProductBuilder.Build(withCode: code, withPrice: price);
+        var product = ProductPriceBuilder.Build(withCode: code, withPrice: price);
 
         return WithSingleProduct(product);
     }
 
-    public TerminalBuilder WithMultipleProducts(IEnumerable<Product> products)
+    public TerminalBuilder WithMultipleProducts(IEnumerable<ProductPrice> products)
     {
         _products.Clear();
         _products.AddRange(products);
@@ -54,14 +54,14 @@ internal class TerminalBuilder
         return this;
     }
 
-    public static List<Product> MakeValidPricing()
+    public static List<ProductPrice> MakeValidPricing()
     {
-        return new List<Product>
+        return new List<ProductPrice>
         {
-            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-            ProductBuilder.Build(withCode: "C", withPrice: 1m),
-            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+            ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
     }
 }
