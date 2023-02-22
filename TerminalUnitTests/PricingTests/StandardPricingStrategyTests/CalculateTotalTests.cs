@@ -29,7 +29,7 @@ public class CalculateTotalTests
 
     [Theory]
     [MemberData(nameof(ProductCodeQuantityProvider))]
-    public void CalculateTotal_CodeQuantities_CalculatesTotal(
+    public void CalculatesExpectedTotalsForSpecifiedProductQuantities(
         Product[] pricing,
         string productCode,
         int productQuantity,
@@ -37,12 +37,12 @@ public class CalculateTotalTests
     )
     {
         // Arrange
-        var sut = StandardPricingStrategyBuilder.Build(
+        var strategy = StandardPricingStrategyBuilder.Build(
             withProductPricing: pricing
         );
 
         // Act
-        var actualTotal = sut.CalculateTotal(productCode, productQuantity);
+        var actualTotal = strategy.CalculateTotal(productCode, productQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
