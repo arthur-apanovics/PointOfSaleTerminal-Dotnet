@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Terminal.Contracts;
 using Terminal.Models;
 using Terminal.Pricing;
 
@@ -6,14 +7,6 @@ namespace TerminalUnitTests.Builders;
 
 public static class BulkPricingStrategyBuilder
 {
-    private static readonly Product[] DefaultProductPricing =
-    {
-        ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-        ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-        ProductBuilder.Build(withCode: "C", withPrice: 1m),
-        ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
-    };
-
     private static readonly BulkProduct[] DefaultBulkProductPricing =
     {
         BulkProductBuilder.Build(
@@ -27,11 +20,11 @@ public static class BulkPricingStrategyBuilder
     };
 
     public static BulkPricingStrategy Build(
-        IEnumerable<Product>? withProductPricing = null,
+        IPricingStrategy? withPricingStrategy = null,
         IEnumerable<BulkProduct>? withBulkProductPricing = null
     ) =>
         new(
-            withProductPricing ?? DefaultProductPricing,
+            withPricingStrategy ?? StandardPricingStrategyBuilder.Build(),
             withBulkProductPricing ?? DefaultBulkProductPricing
         );
 }

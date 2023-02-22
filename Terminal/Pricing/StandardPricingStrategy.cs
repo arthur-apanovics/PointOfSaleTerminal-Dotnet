@@ -60,7 +60,7 @@ public class StandardPricingStrategy : IPricingStrategy
         return result;
     }
 
-    protected virtual decimal CalculateTotalWithoutGuards(
+    private decimal CalculateTotalWithoutGuards(
         string code,
         int quantity
     )

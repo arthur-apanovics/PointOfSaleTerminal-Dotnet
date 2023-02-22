@@ -7,16 +7,17 @@ using Terminal.Models;
 
 namespace Terminal.Pricing;
 
-public class BulkPricingStrategy : StandardPricingStrategy,
-    IDiscountablePricingStrategy
+public class BulkPricingStrategy : IDiscountablePricingStrategy
 {
+    private readonly IPricingStrategy _pricingStrategy;
     private readonly Dictionary<string, BulkPrice> _codeToBulkPriceMap;
 
     public BulkPricingStrategy(
-        IEnumerable<Product> pricing,
+        IPricingStrategy pricingStrategy,
         IEnumerable<BulkProduct> bulkPricing
-    ) : base(pricing)
+    )
     {
+        _pricingStrategy = pricingStrategy;
         var bulkPriceList = bulkPricing.ToList();
         ValidatePricingOrThrow(bulkPriceList);
         _codeToBulkPriceMap = bulkPriceList.ToDictionary(
@@ -25,20 +26,51 @@ public class BulkPricingStrategy : StandardPricingStrategy,
         );
     }
 
+    public bool HasPricing(string code)
+    {
+        return _pricingStrategy.HasPricing(code);
+    }
+
+    public decimal GetPrice(string code)
+    {
+        return _pricingStrategy.GetPrice(code);
+    }
+
+    public decimal CalculateTotal(string code, int quantity)
+    {
+        if (quantity < 0)
+            throw new ArgumentException(
+                "Cannot calculate total for negative quantities"
+            );
+
+        return CalculateTotalWithoutGuards(code, quantity);
+    }
+
+    public decimal CalculateTotal(IEnumerable<string> codes)
+    {
+        var codeList = codes.ToList();
+        if (!codeList.Any())
+            return 0;
+
+        decimal result = 0;
+        var codeToQuantity = codeList.GroupBy(c => c)
+            .ToDictionary(x => x.Key, z => z.Count());
+
+        foreach (var (code, quantity) in codeToQuantity)
+            result += CalculateTotal(code, quantity);
+
+        return result;
+    }
+
     public bool HasDiscountedPricing(string code)
     {
         return _codeToBulkPriceMap.ContainsKey(code);
     }
 
-    protected override decimal CalculateTotalWithoutGuards(
-        string code,
-        int quantity
-    )
+    private decimal CalculateTotalWithoutGuards(string code, int quantity)
     {
-        decimal result;
         var remaining = quantity;
-
-        (result, remaining) = TotalWithDiscount(code, remaining);
+        (var result, remaining) = TotalWithDiscount(code, remaining);
         result += GetPrice(code) * remaining;
 
         return result;
