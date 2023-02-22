@@ -25,6 +25,11 @@ public class ProductValueProviders
         0m, -1m, decimal.MinValue
     };
 
+    private static readonly decimal[] ValidProductPriceValues =
+    {
+        1m, 123m, decimal.MaxValue
+    };
+
     public static IEnumerable<object[]> ValidProductCodes() =>
         ValidProductCodeValues.Select(code => new object[] { code });
 
@@ -33,4 +38,7 @@ public class ProductValueProviders
 
     public static IEnumerable<object[]> InvalidProductPrices() =>
         InvalidProductPriceValues.Select(price => new object[] { price });
+
+    public static IEnumerable<object[]> ValidProductPrices() =>
+        ValidProductPriceValues.Select(price => new object[] { price });
 }
