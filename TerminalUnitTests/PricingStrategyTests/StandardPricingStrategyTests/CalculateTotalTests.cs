@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
 public class CalculateTotalTests
 {

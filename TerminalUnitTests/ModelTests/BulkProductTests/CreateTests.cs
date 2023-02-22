@@ -1,10 +1,9 @@
 using System;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.Models.BulkProductTests;
+namespace TerminalUnitTests.ModelTests.BulkProductTests;
 
 public class CreateTests
 {

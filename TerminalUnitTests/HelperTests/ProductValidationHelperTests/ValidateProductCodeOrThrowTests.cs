@@ -2,7 +2,7 @@ using System;
 using Terminal.Helpers;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.CommonTests.ProductValidationHelperTests;
+namespace TerminalUnitTests.HelperTests.ProductValidationHelperTests;
 
 public class ValidateProductCodeOrThrowTests
 {

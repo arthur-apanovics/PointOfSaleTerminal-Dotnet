@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Terminal.Helpers;
 
-namespace TerminalUnitTests.CommonTests.EnumerableExtensionsTests;
+namespace TerminalUnitTests.HelperTests.EnumerableExtensionsTests;
 
 public class HasDuplicatesTests
 {

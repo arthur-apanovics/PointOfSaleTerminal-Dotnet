@@ -1,9 +1,8 @@
 using System;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.BulkPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.BulkPricingStrategyTests;
 
 public class ConstructorTests
 {

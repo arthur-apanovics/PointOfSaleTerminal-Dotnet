@@ -2,7 +2,7 @@
 using Terminal.Models;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.Models.BulkProductPriceTests;
+namespace TerminalUnitTests.ModelTests.BulkProductPriceTests;
 
 public class ConstructorTests
 {
