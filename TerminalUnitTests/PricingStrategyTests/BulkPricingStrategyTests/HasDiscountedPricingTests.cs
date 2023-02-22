@@ -13,10 +13,7 @@ public class HasDiscountedPricingTests
         var strategy = BulkPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
-                BulkProductBuilder.Build(
-                    withProductCode: productCode,
-                    BulkPriceBuilder.Build()
-                )
+                BulkProductPriceBuilder.Build(withProductCode: productCode)
             }
         );
 
@@ -34,7 +31,7 @@ public class HasDiscountedPricingTests
         var strategy = BulkPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
-                BulkProductBuilder.Build(withProductCode: "Foo")
+                BulkProductPriceBuilder.Build(withProductCode: "Foo")
             }
         );
 

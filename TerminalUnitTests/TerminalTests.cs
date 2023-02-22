@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Terminal;
 using Terminal.Models;
 using Terminal.PricingStrategies;
@@ -45,7 +44,7 @@ public class TerminalTests
     )]
     public void CalculateTotal_WithBulkDiscount_CalculatesTotal(
         ProductPrice[] pricing,
-        BulkProduct[] bulkPricing,
+        BulkProductPrice[] bulkPricing,
         string[] codes,
         decimal expected
     )

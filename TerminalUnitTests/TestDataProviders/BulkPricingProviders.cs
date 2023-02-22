@@ -16,15 +16,17 @@ public static class BulkPricingProviders
         ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
     };
 
-    private static readonly BulkProduct[] BulkPricing =
+    private static readonly BulkProductPrice[] BulkPricing =
     {
-        BulkProduct.Create(
-            productCode: "A",
-            BulkProductPrice.Create(bulkThreshold: 3, bulkPrice: 3m)
+        BulkProductPriceBuilder.Build(
+            withProductCode: "A",
+            withBulkThreshold: 3,
+            withBulkPrice: 3m
         ),
-        BulkProduct.Create(
-            productCode: "C",
-            BulkProductPrice.Create(bulkThreshold: 6, bulkPrice: 5m)
+        BulkProductPriceBuilder.Build(
+            withProductCode: "C",
+            withBulkThreshold: 6,
+            withBulkPrice: 5m
         )
     };
 

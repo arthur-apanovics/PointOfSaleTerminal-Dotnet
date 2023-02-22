@@ -15,7 +15,7 @@ public class CalculateTotalTests
     )]
     public void CalculatesExpectedTotalsForProductCodeSequences(
         ProductPrice[] pricing,
-        BulkProduct[] bulkPricing,
+        BulkProductPrice[] bulkPricing,
         string[] productCodes,
         decimal expectedTotal
     )
@@ -42,7 +42,7 @@ public class CalculateTotalTests
     )]
     public void CalculatesExpectedTotalsForSpecifiedProductQuantities(
         ProductPrice[] pricing,
-        BulkProduct[] bulkPricing,
+        BulkProductPrice[] bulkPricing,
         string productCode,
         int productQuantity,
         decimal expectedTotal
@@ -70,7 +70,10 @@ public class CalculateTotalTests
         const string productCode = "X";
         var strategy = BulkPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
-                withProductPricing: new[] { ProductPriceBuilder.Build(productCode) }
+                withProductPricing: new[]
+                {
+                    ProductPriceBuilder.Build(productCode)
+                }
             )
         );
 

@@ -10,13 +10,12 @@ public class ConstructorTests
     public void ThrowsWhenDuplicateBulkProductCodePresentInPricing()
     {
         // Arrange
-        var pricingWithDuplicates =
-            new[]
-            {
-                BulkProductBuilder.Build(withProductCode: "Foo"),
-                BulkProductBuilder.Build(withProductCode: "Bar"),
-                BulkProductBuilder.Build(withProductCode: "Bar"),
-            };
+        var pricingWithDuplicates = new[]
+        {
+            BulkProductPriceBuilder.Build(withProductCode: "Foo"),
+            BulkProductPriceBuilder.Build(withProductCode: "Bar"),
+            BulkProductPriceBuilder.Build(withProductCode: "Bar"),
+        };
 
         // Act
         var actual = () => BulkPricingStrategyBuilder.Build(
