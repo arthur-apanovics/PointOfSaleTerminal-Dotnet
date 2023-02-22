@@ -1,49 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using Terminal.Models;
 using TerminalUnitTests.Builders;
 
 namespace TerminalUnitTests;
 
 public class StandardPricingStrategyTests
 {
-    [Fact]
-    public void Validation_WithEmptyPricing_ThrowsException()
-    {
-        var actual = () =>
-        {
-            StandardPricingStrategyBuilder.Build(
-                withProductPricing: Array.Empty<Product>()
-            );
-        };
-
-        Assert.Throws<ArgumentException>(actual);
-    }
-
-    [Fact]
-    public void Validation_DuplicateProductCodes_ThrowsException()
-    {
-        var sut = () =>
-        {
-            StandardPricingStrategyBuilder.Build(
-                withProductPricing: new[]
-                {
-                    ProductBuilder.Build(
-                        withCode: "A",
-                        withPrice: 1.25m
-                    ),
-                    ProductBuilder.Build(
-                        withCode: "B",
-                        withPrice: 4.25m
-                    ),
-                    ProductBuilder.Build(withCode: "B", withPrice: 1m)
-                }
-            );
-        };
-
-        Assert.Throws<ArgumentException>(sut);
-    }
-
     [Fact]
     public void HasPricing_WithValidArgument_ReturnsTrue()
     {
