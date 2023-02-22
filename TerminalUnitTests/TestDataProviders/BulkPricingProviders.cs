@@ -16,11 +16,11 @@ public static class BulkPricingProviders
 
     private static readonly BulkProduct[] BulkPricing =
     {
-        new(
+        BulkProduct.Create(
             productCode: "A",
             BulkProductPrice.Create(bulkThreshold: 3, bulkPrice: 3m)
         ),
-        new(
+        BulkProduct.Create(
             productCode: "C",
             BulkProductPrice.Create(bulkThreshold: 6, bulkPrice: 5m)
         )

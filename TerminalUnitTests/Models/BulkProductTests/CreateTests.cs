@@ -5,7 +5,7 @@ using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests.Models.BulkProductTests;
 
-public class ConstructorTests
+public class CreateTests
 {
     [Theory]
     [MemberData(
@@ -15,7 +15,7 @@ public class ConstructorTests
     public void ThrowsWhenProductCodeValueNotValid(string productCode)
     {
         // Arrange
-        var actual = () => new BulkProduct(
+        var actual = () => BulkProduct.Create(
             productCode,
             BulkPriceBuilder.Build()
         );

@@ -8,5 +8,8 @@ public static class BulkProductBuilder
         string? withProductCode = null,
         BulkProductPrice? withBulkPrice = null
     ) =>
-        new(withProductCode ?? "A", withBulkPrice ?? BulkPriceBuilder.Build());
+        BulkProduct.Create(
+            withProductCode ?? "A",
+            withBulkPrice ?? BulkPriceBuilder.Build()
+        );
 }
