@@ -1,5 +1,7 @@
 using System;
 using TerminalUnitTests.Builders;
+using TerminalUnitTests.Builders.Models;
+using TerminalUnitTests.Builders.PricingStrategies;
 
 namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
 

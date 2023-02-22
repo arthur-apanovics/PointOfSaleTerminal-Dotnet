@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Terminal.Common;
+using Terminal.Helpers;
 
 namespace TerminalUnitTests.CommonTests.EnumerableExtensionsTests;
 

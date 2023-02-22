@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Terminal.Common;
+namespace Terminal.Helpers;
 
 public static class EnumerableExtensions
 {

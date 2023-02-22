@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Terminal.Common;
+namespace Terminal.Helpers;
 
 public static class ProductValidationHelper
 {

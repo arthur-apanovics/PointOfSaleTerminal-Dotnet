@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using Terminal.Models;
-using Terminal.Pricing;
+using Terminal.PricingStrategies;
+using TerminalUnitTests.Builders.Models;
 
-namespace TerminalUnitTests.Builders;
+namespace TerminalUnitTests.Builders.PricingStrategies;
 
 public static class StandardPricingStrategyBuilder
 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terminal.Models;
 using TerminalUnitTests.Builders;
+using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.TestDataProviders;
 

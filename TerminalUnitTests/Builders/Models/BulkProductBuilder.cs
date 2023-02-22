@@ -1,6 +1,6 @@
 using Terminal.Models;
 
-namespace TerminalUnitTests.Builders;
+namespace TerminalUnitTests.Builders.Models;
 
 public static class BulkProductBuilder
 {

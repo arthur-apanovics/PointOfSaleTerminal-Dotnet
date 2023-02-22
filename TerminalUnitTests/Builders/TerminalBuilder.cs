@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Terminal;
-using Terminal.Contracts;
 using Terminal.Models;
-using Terminal.Pricing;
+using Terminal.PricingStrategies;
+using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.Builders;
 

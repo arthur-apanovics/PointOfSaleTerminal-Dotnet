@@ -1,5 +1,8 @@
-﻿namespace Terminal.Contracts;
+﻿namespace Terminal.PricingStrategies;
 
+/// <summary>
+///
+/// </summary>
 public interface IDiscountablePricingStrategy : IPricingStrategy
 {
     /// <summary>

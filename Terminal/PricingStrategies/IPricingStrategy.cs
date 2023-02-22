@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace Terminal.Contracts;
+namespace Terminal.PricingStrategies;
 
 public interface IPricingStrategy
 {

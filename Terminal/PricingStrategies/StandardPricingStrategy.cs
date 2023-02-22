@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Terminal.Common;
-using Terminal.Contracts;
+using Terminal.Helpers;
 using Terminal.Models;
 
-namespace Terminal.Pricing;
+namespace Terminal.PricingStrategies;
 
 public class StandardPricingStrategy : IPricingStrategy
 {

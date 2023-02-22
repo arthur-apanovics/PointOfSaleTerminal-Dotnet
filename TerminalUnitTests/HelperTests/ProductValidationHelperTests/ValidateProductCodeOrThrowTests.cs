@@ -1,21 +1,21 @@
 using System;
-using Terminal.Common;
+using Terminal.Helpers;
 using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests.CommonTests.ProductValidationHelperTests;
 
-public class ValidatePriceOrThrowTests
+public class ValidateProductCodeOrThrowTests
 {
     [Theory]
     [MemberData(
-        nameof(ProductValueProviders.InvalidProductPrices),
+        nameof(ProductValueProviders.InvalidProductCodes),
         MemberType = typeof(ProductValueProviders)
     )]
-    public void ThrowsWhenProductPriceIsNotValid(decimal productPrice)
+    public void ThrowsWhenProductCodeIsNotValid(string productCode)
     {
         // Arrange
         var actual = () =>
-            ProductValidationHelper.ValidatePriceOrThrow(productPrice);
+            ProductValidationHelper.ValidateProductCodeOrThrow(productCode);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -23,14 +23,14 @@ public class ValidatePriceOrThrowTests
 
     [Theory]
     [MemberData(
-        nameof(ProductValueProviders.ValidProductPrices),
+        nameof(ProductValueProviders.ValidProductCodes),
         MemberType = typeof(ProductValueProviders)
     )]
-    public void DoesNotThrowWhenProductPriceIsValid(decimal productPrice)
+    public void DoesNotThrowWhenProductCodeIsValid(string productCode)
     {
         // Arrange
         var actual = () =>
-            ProductValidationHelper.ValidatePriceOrThrow(productPrice);
+            ProductValidationHelper.ValidateProductCodeOrThrow(productCode);
 
         // Act/Assert
         actual.Should().NotThrow();

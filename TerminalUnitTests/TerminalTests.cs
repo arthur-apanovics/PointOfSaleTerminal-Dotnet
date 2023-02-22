@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Terminal;
 using Terminal.Models;
-using Terminal.Pricing;
+using Terminal.PricingStrategies;
 using TerminalUnitTests.Builders;
+using TerminalUnitTests.Builders.Models;
+using TerminalUnitTests.Builders.PricingStrategies;
 using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests;
