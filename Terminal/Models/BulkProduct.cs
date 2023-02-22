@@ -7,27 +7,27 @@ public readonly struct BulkProduct
     /// <summary>
     ///     Represents a map from a product code to a bulk price definition.
     /// </summary>
-    /// <param name="code">
-    ///     <see cref="Code" />
+    /// <param name="productCode">
+    ///     <see cref="ProductCode" />
     /// </param>
     /// <param name="bulkPrice">
     ///     <see cref="BulkPrice" />
     /// </param>
-    public BulkProduct(string code, BulkPrice bulkPrice)
+    public BulkProduct(string productCode, BulkProductPrice bulkPrice)
     {
-        ProductValidationHelper.ValidateProductCodeOrThrow(code);
+        ProductValidationHelper.ValidateProductCodeOrThrow(productCode);
 
-        Code = code;
+        ProductCode = productCode;
         BulkPrice = bulkPrice;
     }
 
     /// <summary>
     ///     Product code
     /// </summary>
-    public string Code { get; }
+    public string ProductCode { get; }
 
     /// <summary>
     ///     Bulk price entry
     /// </summary>
-    public BulkPrice BulkPrice { get; }
+    public BulkProductPrice BulkPrice { get; }
 }

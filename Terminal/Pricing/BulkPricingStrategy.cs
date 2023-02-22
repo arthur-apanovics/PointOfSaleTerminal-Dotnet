@@ -10,7 +10,9 @@ namespace Terminal.Pricing;
 public class BulkPricingStrategy : IDiscountablePricingStrategy
 {
     private readonly IPricingStrategy _pricingStrategy;
-    private readonly Dictionary<string, BulkPrice> _codeToBulkPriceMap;
+
+    private readonly Dictionary<string, BulkProductPrice>
+        _productCodeToBulkPrice;
 
     public BulkPricingStrategy(
         IPricingStrategy pricingStrategy,
@@ -20,8 +22,8 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
         _pricingStrategy = pricingStrategy;
         var bulkPriceList = bulkPricing.ToList();
         ValidatePricingOrThrow(bulkPriceList);
-        _codeToBulkPriceMap = bulkPriceList.ToDictionary(
-            b => b.Code,
+        _productCodeToBulkPrice = bulkPriceList.ToDictionary(
+            b => b.ProductCode,
             b => b.BulkPrice
         );
     }
@@ -64,7 +66,7 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
 
     public bool HasDiscountedPricing(string code)
     {
-        return _codeToBulkPriceMap.ContainsKey(code);
+        return _productCodeToBulkPrice.ContainsKey(code);
     }
 
     private decimal CalculateTotalWithoutGuards(string code, int quantity)
@@ -88,11 +90,11 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
             return (result, remainder);
 
         // opting to use while loop instead of arithmetic for simplicity/readability
-        var bulkPrice = _codeToBulkPriceMap[code];
-        while (remainder >= bulkPrice.Threshold)
+        var bulkPrice = _productCodeToBulkPrice[code];
+        while (remainder >= bulkPrice.BulkThreshold)
         {
-            result += bulkPrice.Price;
-            remainder -= bulkPrice.Threshold;
+            result += bulkPrice.BulkPrice;
+            remainder -= bulkPrice.BulkThreshold;
         }
 
         return (result, remainder);
@@ -102,7 +104,7 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
         IEnumerable<BulkProduct> bulkPrices
     )
     {
-        if (bulkPrices.HasDuplicates(b => b.Code))
+        if (bulkPrices.HasDuplicates(b => b.ProductCode))
             throw new ArgumentException(
                 "Bulk pricing list cannot contain duplicate products"
             );

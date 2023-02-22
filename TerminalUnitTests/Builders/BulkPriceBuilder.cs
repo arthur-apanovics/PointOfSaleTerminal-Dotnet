@@ -4,7 +4,7 @@ namespace TerminalUnitTests.Builders;
 
 public static class BulkPriceBuilder
 {
-    public static BulkPrice Build(
+    public static BulkProductPrice Build(
         int? withThreshold = null,
         decimal? withPrice = null
     ) =>

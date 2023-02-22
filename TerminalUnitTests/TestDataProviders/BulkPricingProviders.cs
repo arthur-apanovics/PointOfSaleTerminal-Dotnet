@@ -16,8 +16,8 @@ public static class BulkPricingProviders
 
     private static readonly BulkProduct[] BulkPricing =
     {
-        new(code: "A", new BulkPrice(threshold: 3, price: 3m)),
-        new(code: "C", new BulkPrice(threshold: 6, price: 5m))
+        new(productCode: "A", new BulkProductPrice(bulkThreshold: 3, bulkPrice: 3m)),
+        new(productCode: "C", new BulkProductPrice(bulkThreshold: 6, bulkPrice: 5m))
     };
 
     public static IEnumerable<object[]> BulkProductCodesAndTotals()
