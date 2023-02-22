@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using Terminal;
 using Terminal.Models;
-using Terminal.Pricing;
+using Terminal.PricingStrategies;
 using TerminalUnitTests.Builders;
+using TerminalUnitTests.Builders.Models;
+using TerminalUnitTests.Builders.PricingStrategies;
+using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests;
 
@@ -36,28 +39,26 @@ public class TerminalTests
     }
 
     [Theory]
-    [InlineData(new[] { "A", "B", "C", "D", "A", "B", "A" }, 13.25)]
-    [InlineData(new[] { "C", "C", "C", "C", "C", "C", "C" }, 6)]
-    [InlineData(new[] { "A", "B", "C", "D" }, 7.25)]
-    [InlineData(new[] { "B", "B", "B", "B", "B" }, 21.25)]
-    [InlineData(new[] { "B", "B", "B", "D", "D", "D" }, 15)]
-    [InlineData(new[] { "D" }, 0.75)]
-    [InlineData(new string[] { }, 0)]
+    [MemberData(
+        nameof(BulkPricingProviders.BulkProductCodesAndTotals),
+        MemberType = typeof(BulkPricingProviders)
+    )]
     public void CalculateTotal_WithBulkDiscount_CalculatesTotal(
+        Product[] pricing,
+        BulkProduct[] bulkPricing,
         string[] codes,
         decimal expected
     )
     {
-        var pricing = new List<Product>
-        {
-            new("A", 1.25m), new("B", 4.25m), new("C", 1m), new("D", 0.75m)
-        };
-        var bulkPricing = new List<BulkProduct>
-        {
-            new("A", new BulkPrice(3, 3m)), new("C", new BulkPrice(6, 5m))
-        };
         var sut = new TerminalBuilder().WithMultipleProducts(pricing)
-            .WithPricingStrategy(new BulkPricingStrategy(pricing, bulkPricing))
+            .WithPricingStrategy(
+                new BulkPricingStrategy(
+                    StandardPricingStrategyBuilder.Build(
+                        withProductPricing: pricing
+                    ),
+                    bulkPricing
+                )
+            )
             .Build();
 
         foreach (var code in codes) sut.ScanProduct(code);
@@ -75,9 +76,12 @@ public class TerminalTests
         decimal expected
     )
     {
-        var pricing = new List<Product>
+        var pricing = new[]
         {
-            new("A", 1.25m), new("B", 4.25m), new("C", 1m), new("D", 0.75m)
+            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
         var sut = new TerminalBuilder().WithMultipleProducts(pricing).Build();
 
