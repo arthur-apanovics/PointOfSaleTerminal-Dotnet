@@ -10,7 +10,10 @@ public class HasPricingTests
         // Arrange
         const string productCode = "Q";
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: ProductBuilder.Build(withCode: productCode)
+            withProductPricing: new[]
+            {
+                ProductBuilder.Build(withCode: productCode)
+            }
         );
 
         // Act
@@ -25,7 +28,7 @@ public class HasPricingTests
     {
         // Arrange
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: ProductBuilder.Build("Foo")
+            withProductPricing: new[] { ProductBuilder.Build("Foo") }
         );
 
         // Act

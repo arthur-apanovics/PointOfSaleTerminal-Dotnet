@@ -1,4 +1,5 @@
-﻿using Terminal.Models;
+﻿using System.Collections.Generic;
+using Terminal.Models;
 using Terminal.Pricing;
 
 namespace TerminalUnitTests.Builders;
@@ -14,7 +15,7 @@ public static class StandardPricingStrategyBuilder
     };
 
     public static StandardPricingStrategy Build(
-        params Product[]? withProductPricing
+        IEnumerable<Product>? withProductPricing = null
     ) =>
         new(withProductPricing ?? DefaultPricing);
 }
