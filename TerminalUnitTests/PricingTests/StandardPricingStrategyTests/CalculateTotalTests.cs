@@ -27,6 +27,42 @@ public class CalculateTotalTests
         actualTotal.Should().Be(expectedTotal);
     }
 
+    [Theory]
+    [MemberData(nameof(ProductCodeQuantityProvider))]
+    public void CalculateTotal_CodeQuantities_CalculatesTotal(
+        Product[] pricing,
+        string productCode,
+        int productQuantity,
+        decimal expectedTotal
+    )
+    {
+        // Arrange
+        var sut = StandardPricingStrategyBuilder.Build(
+            withProductPricing: pricing
+        );
+
+        // Act
+        var actualTotal = sut.CalculateTotal(productCode, productQuantity);
+
+        // Assert
+        actualTotal.Should().Be(expectedTotal);
+    }
+
+    [Fact]
+    public void ThrowsWhenInvalidQuantityProvided()
+    {
+        // Arrange
+        var strategy = StandardPricingStrategyBuilder.Build(
+            withProductPricing: new[] { ProductBuilder.Build("X") }
+        );
+
+        // Act
+        var actual = () => strategy.CalculateTotal(code: "X", quantity: -1);
+
+        // Assert
+        actual.Should().ThrowExactly<ArgumentException>();
+    }
+
     public static IEnumerable<object[]> ProductCodeSequenceProvider()
     {
         var pricing = new[]
@@ -70,41 +106,5 @@ public class CalculateTotalTests
 
         foreach (var (code, qty, total) in productQtyTotals)
             yield return new object[] { pricing, code, qty, total };
-    }
-
-    [Theory]
-    [MemberData(nameof(ProductCodeQuantityProvider))]
-    public void CalculateTotal_CodeQuantities_CalculatesTotal(
-        Product[] pricing,
-        string productCode,
-        int productQuantity,
-        decimal expectedTotal
-    )
-    {
-        // Arrange
-        var sut = StandardPricingStrategyBuilder.Build(
-            withProductPricing: pricing
-        );
-
-        // Act
-        var actualTotal = sut.CalculateTotal(productCode, productQuantity);
-
-        // Assert
-        actualTotal.Should().Be(expectedTotal);
-    }
-
-    [Fact]
-    public void ThrowsWhenInvalidQuantityProvided()
-    {
-        // Arrange
-        var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: new[] { ProductBuilder.Build("X") }
-        );
-
-        // Act
-        var actual = () => strategy.CalculateTotal(code: "X", quantity: -1);
-
-        // Assert
-        actual.Should().ThrowExactly<ArgumentException>();
     }
 }
