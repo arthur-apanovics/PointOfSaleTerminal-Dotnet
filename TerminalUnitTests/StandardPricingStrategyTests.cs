@@ -10,9 +10,14 @@ public class StandardPricingStrategyTests
     [Fact]
     public void Validation_WithEmptyPricing_ThrowsException()
     {
-        var sut = () => { new StandardPricingBuilder().Build(); };
+        var actual = () =>
+        {
+            StandardPricingStrategyBuilder.Build(
+                withProductPricing: Array.Empty<Product>()
+            );
+        };
 
-        Assert.Throws<ArgumentException>(sut);
+        Assert.Throws<ArgumentException>(actual);
     }
 
     [Fact]
@@ -20,14 +25,20 @@ public class StandardPricingStrategyTests
     {
         var sut = () =>
         {
-            var pricing = new[]
-            {
-                new Product("A", 1.25m),
-                new Product("B", 4.25m),
-                new Product("B", 1m)
-            };
-
-            new StandardPricingBuilder().WithPricing(pricing).Build();
+            StandardPricingStrategyBuilder.Build(
+                withProductPricing: new[]
+                {
+                    ProductBuilder.Build(
+                        withCode: "A",
+                        withPrice: 1.25m
+                    ),
+                    ProductBuilder.Build(
+                        withCode: "B",
+                        withPrice: 4.25m
+                    ),
+                    ProductBuilder.Build(withCode: "B", withPrice: 1m)
+                }
+            );
         };
 
         Assert.Throws<ArgumentException>(sut);
@@ -36,7 +47,12 @@ public class StandardPricingStrategyTests
     [Fact]
     public void HasPricing_WithValidArgument_ReturnsTrue()
     {
-        var sut = new StandardPricingBuilder().WithPricing("Q", 1m).Build();
+        var sut = StandardPricingStrategyBuilder.Build(
+            withProductPricing: new[]
+            {
+                ProductBuilder.Build(withCode: "Q", withPrice: 1m)
+            }
+        );
 
         Assert.True(sut.HasPricing("Q"));
     }
@@ -46,9 +62,12 @@ public class StandardPricingStrategyTests
     {
         const decimal expected = 0.001m;
         const string code = "W";
-        var sut = new StandardPricingBuilder()
-            .WithPricing(new Product(code, expected))
-            .Build();
+        var sut = StandardPricingStrategyBuilder.Build(
+            withProductPricing: new[]
+            {
+                ProductBuilder.Build(withCode: code, withPrice: expected)
+            }
+        );
 
         Assert.Equal(expected, sut.GetPrice(code));
     }
@@ -63,11 +82,15 @@ public class StandardPricingStrategyTests
         decimal expected
     )
     {
-        var pricing = new List<Product>
-        {
-            new("A", 1.25m), new("B", 4.25m), new("C", 1m), new("D", 0.75m)
-        };
-        var sut = new StandardPricingBuilder().WithPricing(pricing).Build();
+        var sut = StandardPricingStrategyBuilder.Build(
+            withProductPricing: new[]
+            {
+                ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+                ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+                ProductBuilder.Build(withCode: "C", withPrice: 1m),
+                ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+            }
+        );
 
         var codes = sequence.Split(',', StringSplitOptions.RemoveEmptyEntries);
         var actual = sut.CalculateTotal(codes);
@@ -86,8 +109,13 @@ public class StandardPricingStrategyTests
         decimal expected
     )
     {
-        var pricing = new List<Product> { new("A", 1.25m), new("B", 4.25m) };
-        var sut = new StandardPricingBuilder().WithPricing(pricing).Build();
+        var sut = StandardPricingStrategyBuilder.Build(
+            withProductPricing: new[]
+            {
+                ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+                ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+            }
+        );
 
         var actual = sut.CalculateTotal(code, quantity);
 
@@ -99,8 +127,7 @@ public class StandardPricingStrategyTests
     {
         var sut = () =>
         {
-            var strategy =
-                new StandardPricingBuilder().WithValidPricing().Build();
+            var strategy = StandardPricingStrategyBuilder.Build();
             strategy.CalculateTotal("X", -1);
         };
 
