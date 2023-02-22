@@ -8,5 +8,5 @@ public static class ProductBuilder
         string? withCode = null,
         decimal? withPrice = null
     ) =>
-        new(withCode ?? "A", withPrice ?? 1.25m);
+        Product.Create(withCode ?? "A", withPrice ?? 1.25m);
 }

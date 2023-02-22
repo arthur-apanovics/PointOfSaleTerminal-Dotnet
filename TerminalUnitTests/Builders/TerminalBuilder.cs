@@ -34,7 +34,7 @@ internal class TerminalBuilder
 
     public TerminalBuilder WithSingleProduct(string code, decimal price)
     {
-        var product = new Product(code, price);
+        var product = ProductBuilder.Build(withCode: code, withPrice: price);
 
         return WithSingleProduct(product);
     }
@@ -58,7 +58,10 @@ internal class TerminalBuilder
     {
         return new List<Product>
         {
-            new("A", 1.25m), new("B", 4.25m), new("C", 1m), new("D", 0.75m)
+            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
     }
 }

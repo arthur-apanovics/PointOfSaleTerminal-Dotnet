@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Terminal.Models;
+using TerminalUnitTests.Builders;
 
 namespace TerminalUnitTests.TestDataProviders;
 
@@ -8,10 +9,10 @@ public static class BulkPricingProviders
 {
     private static readonly Product[] StandardPricing =
     {
-        new(code: "A", price: 1.25m),
-        new(code: "B", price: 4.25m),
-        new(code: "C", price: 1m),
-        new(code: "D", price: 0.75m)
+        ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+        ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+        ProductBuilder.Build(withCode: "C", withPrice: 1m),
+        ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
     };
 
     private static readonly BulkProduct[] BulkPricing =

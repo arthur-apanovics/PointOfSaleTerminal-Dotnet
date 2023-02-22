@@ -2,22 +2,10 @@
 
 namespace Terminal.Models;
 
-public readonly struct Product
+public record Product
 {
-    /// <summary>
-    ///     Represents a regular product code to price mapping.
-    /// </summary>
-    /// <param name="code">
-    ///     <see cref="Code" />
-    /// </param>
-    /// <param name="price">
-    ///     <see cref="Price" />
-    /// </param>
-    public Product(string code, decimal price)
+    private Product(string code, decimal price)
     {
-        ProductValidationHelper.ValidateProductCodeOrThrow(code);
-        ProductValidationHelper.ValidatePriceOrThrow(price);
-
         Code = code;
         Price = price;
     }
@@ -31,4 +19,21 @@ public readonly struct Product
     ///     Product price
     /// </summary>
     public decimal Price { get; }
+
+    /// <summary>
+    ///     Represents a regular product code to price mapping.
+    /// </summary>
+    /// <param name="code">
+    ///     <see cref="Code" />
+    /// </param>
+    /// <param name="price">
+    ///     <see cref="Price" />
+    /// </param>
+    public static Product Create(string code, decimal price)
+    {
+        ProductValidationHelper.ValidateProductCodeOrThrow(code);
+        ProductValidationHelper.ValidatePriceOrThrow(price);
+
+        return new Product(code, price);
+    }
 }

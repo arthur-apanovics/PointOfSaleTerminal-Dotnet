@@ -74,9 +74,12 @@ public class TerminalTests
         decimal expected
     )
     {
-        var pricing = new List<Product>
+        var pricing = new[]
         {
-            new("A", 1.25m), new("B", 4.25m), new("C", 1m), new("D", 0.75m)
+            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
         var sut = new TerminalBuilder().WithMultipleProducts(pricing).Build();
 

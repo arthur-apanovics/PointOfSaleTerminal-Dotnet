@@ -4,7 +4,7 @@ using TerminalUnitTests.TestDataProviders;
 
 namespace TerminalUnitTests.Models.ProductTests;
 
-public class ConstructorTests
+public class CreateTests
 {
     [Theory]
     [MemberData(
@@ -14,7 +14,7 @@ public class ConstructorTests
     public void ThrowsWhenProductCodeNotValid(string code)
     {
         // Arrange
-        var actual = () => new Product(code, price: 3m);
+        var actual = () => Product.Create(code, price: 3m);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -28,7 +28,7 @@ public class ConstructorTests
     public void ThrowsWhenProductPriceNotValid(decimal price)
     {
         // Arrange
-        var actual = () => new Product(code: "X", price);
+        var actual = () => Product.Create(code: "X", price);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
