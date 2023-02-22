@@ -18,7 +18,7 @@ public class ConstructorTests
         };
 
         // Act
-        var actual = () => BulkPricingStrategyBuilder.Build(
+        var actual = () => BulkDiscountPricingStrategyBuilder.Build(
             withBulkProductPricing: pricingWithDuplicates
         );
 

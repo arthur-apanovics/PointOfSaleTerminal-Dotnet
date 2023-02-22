@@ -5,7 +5,7 @@ using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.Builders.PricingStrategies;
 
-public static class BulkPricingStrategyBuilder
+public static class BulkDiscountPricingStrategyBuilder
 {
     private static readonly BulkProductPrice[] DefaultBulkProductPricing =
     {
@@ -21,7 +21,7 @@ public static class BulkPricingStrategyBuilder
         ),
     };
 
-    public static BulkPricingStrategy Build(
+    public static BulkDiscountPricingStrategy Build(
         IPricingStrategy? withPricingStrategy = null,
         IEnumerable<BulkProductPrice>? withBulkProductPricing = null
     ) =>

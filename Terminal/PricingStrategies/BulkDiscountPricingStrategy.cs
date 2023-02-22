@@ -6,12 +6,12 @@ using Terminal.Models;
 
 namespace Terminal.PricingStrategies;
 
-public class BulkPricingStrategy : IDiscountablePricingStrategy
+public class BulkDiscountPricingStrategy : IDiscountablePricingStrategy
 {
     private readonly IPricingStrategy _pricingStrategy;
     private readonly BulkProductPrice[] _bulkProductPrices;
 
-    public BulkPricingStrategy(
+    public BulkDiscountPricingStrategy(
         IPricingStrategy pricingStrategy,
         IEnumerable<BulkProductPrice> bulkProductPricing
     )

@@ -21,7 +21,7 @@ public class CalculateTotalTests
     )
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
                 withProductPricing: pricing
             ),
@@ -49,7 +49,7 @@ public class CalculateTotalTests
     )
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
                 withProductPricing: pricing
             ),
@@ -68,7 +68,7 @@ public class CalculateTotalTests
     {
         // Arrange
         const string productCode = "X";
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
                 withProductPricing: new[]
                 {

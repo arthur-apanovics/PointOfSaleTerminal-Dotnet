@@ -51,7 +51,7 @@ public class TerminalTests
     {
         var sut = new TerminalBuilder().WithMultipleProducts(pricing)
             .WithPricingStrategy(
-                new BulkPricingStrategy(
+                new BulkDiscountPricingStrategy(
                     StandardPricingStrategyBuilder.Build(
                         withProductPricing: pricing
                     ),

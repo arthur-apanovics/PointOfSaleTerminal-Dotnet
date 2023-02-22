@@ -10,7 +10,7 @@ public class HasDiscountedPricingTests
     {
         // Arrange
         const string productCode = "Q";
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
                 BulkProductPriceBuilder.Build(withProductCode: productCode)
@@ -28,7 +28,7 @@ public class HasDiscountedPricingTests
     public void ReturnsFalseWhenDiscountedProductPriceDoesNotExist()
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
                 BulkProductPriceBuilder.Build(withProductCode: "Foo")
