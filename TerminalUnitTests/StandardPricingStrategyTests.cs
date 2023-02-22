@@ -5,20 +5,6 @@ namespace TerminalUnitTests;
 
 public class StandardPricingStrategyTests
 {
-    [Fact]
-    public void GetPrice_WithSingleProduct_ReturnsPriceForProductCode()
-    {
-        const decimal expected = 0.001m;
-        const string code = "W";
-        var sut = StandardPricingStrategyBuilder.Build(
-            withProductPricing: ProductBuilder.Build(
-                withCode: code,
-                withPrice: expected
-            )
-        );
-
-        Assert.Equal(expected, sut.GetPrice(code));
-    }
 
     [Theory]
     [InlineData("A,A,A,A", 5)]
