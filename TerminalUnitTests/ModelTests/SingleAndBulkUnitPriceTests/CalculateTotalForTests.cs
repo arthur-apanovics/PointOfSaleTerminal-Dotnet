@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Terminal.Models;
 
-namespace TerminalUnitTests.Models.SingleAndBulkUnitPriceTests;
+namespace TerminalUnitTests.ModelTests.SingleAndBulkUnitPriceTests;
 
 public class CalculateTotalForTests
 {

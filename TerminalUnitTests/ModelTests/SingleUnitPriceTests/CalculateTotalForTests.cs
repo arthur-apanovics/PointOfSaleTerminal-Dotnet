@@ -1,6 +1,6 @@
 using Terminal.Models;
 
-namespace TerminalUnitTests.Models.SingleUnitPriceTests;
+namespace TerminalUnitTests.ModelTests.SingleUnitPriceTests;
 
 public class CalculateTotalForTests
 {
