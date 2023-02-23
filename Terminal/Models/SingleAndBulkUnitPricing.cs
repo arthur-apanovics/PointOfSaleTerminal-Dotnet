@@ -47,7 +47,7 @@ public record SingleAndBulkUnitPricing : IProductPricing
         decimal bulkUnitPrice
     )
     {
-        ThrowIfArgumentsInvalid(
+        ThrowIfArgumentsNotValid(
             productCode,
             singleUnitPrice,
             bulkUnitSize,
@@ -62,7 +62,7 @@ public record SingleAndBulkUnitPricing : IProductPricing
         );
     }
 
-    private static void ThrowIfArgumentsInvalid(
+    private static void ThrowIfArgumentsNotValid(
         string productCode,
         decimal singleUnitPrice,
         int bulkUnitSize,

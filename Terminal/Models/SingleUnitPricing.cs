@@ -1,3 +1,5 @@
+using Terminal.Helpers;
+
 namespace Terminal.Models;
 
 public record SingleUnitPricing : IProductPricing
@@ -20,6 +22,11 @@ public record SingleUnitPricing : IProductPricing
     public static SingleUnitPricing Create(
         string productCode,
         decimal unitPrice
-    ) =>
-        new(productCode, unitPrice);
+    )
+    {
+        ProductValidationHelper.ThrowIfProductCodeNotValid(productCode);
+        ProductValidationHelper.ThrowIfProductPriceNotValid(unitPrice);
+
+        return new SingleUnitPricing(productCode, unitPrice);
+    }
 }
