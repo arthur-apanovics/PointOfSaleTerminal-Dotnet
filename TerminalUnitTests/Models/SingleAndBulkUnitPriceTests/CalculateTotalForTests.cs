@@ -29,6 +29,13 @@ public class CalculateTotalForTests
         var scenarios = new BulkPriceScenario[]
         {
             new(
+                SingleUnitPrice: 1,
+                BulkUnitSize: 3,
+                BulkUnitPrice: 3m,
+                UnitQuantity: 1,
+                ExpectedTotalPrice: 1m
+            ),
+            new(
                 SingleUnitPrice: 1.25m,
                 BulkUnitSize: 3,
                 BulkUnitPrice: 3m,
