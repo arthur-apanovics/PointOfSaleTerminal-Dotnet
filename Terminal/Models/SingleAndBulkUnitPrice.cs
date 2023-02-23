@@ -1,6 +1,6 @@
 namespace Terminal.Models;
 
-public record BulkPrice : IProductPrice
+public record SingleAndBulkUnitPrice : IProductPrice
 {
     public string ProductCode { get; }
 
@@ -8,7 +8,7 @@ public record BulkPrice : IProductPrice
     private int BulkUnitSize { get; }
     private decimal BulkUnitPrice { get; }
 
-    private BulkPrice(
+    private SingleAndBulkUnitPrice(
         string productCode,
         decimal singleUnitPrice,
         int bulkUnitSize,
@@ -38,7 +38,7 @@ public record BulkPrice : IProductPrice
         return result;
     }
 
-    public static BulkPrice Create(
+    public static SingleAndBulkUnitPrice Create(
         string productCode,
         decimal singleUnitPrice,
         int bulkUnitSize,

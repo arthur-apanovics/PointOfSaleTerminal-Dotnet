@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Terminal.Models;
 
-namespace TerminalUnitTests.Models.BulkPriceTests;
+namespace TerminalUnitTests.Models.SingleAndBulkUnitPriceTests;
 
 public class CalculateTotalForTests
 {
@@ -10,7 +10,7 @@ public class CalculateTotalForTests
     public void ReturnsExpectedTotalPrice(BulkPriceScenario scenario)
     {
         // Arrange
-        var price = BulkPrice.Create(
+        var price = SingleAndBulkUnitPrice.Create(
             productCode: "_",
             singleUnitPrice: scenario.SingleUnitPrice,
             bulkUnitSize: scenario.BulkUnitSize,
