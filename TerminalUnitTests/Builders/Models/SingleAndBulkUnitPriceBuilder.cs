@@ -4,13 +4,13 @@ namespace TerminalUnitTests.Builders.Models;
 
 public static class SingleAndBulkUnitPriceBuilder
 {
-    public static SingleAndBulkUnitPrice Build(
+    public static SingleAndBulkUnitPricing Build(
         string? withProductCode = null,
         decimal? withSingleUnitPrice = null,
         int? withBulkUnitSize = null,
         decimal? withBulkUnitPrice = null
     ) =>
-        SingleAndBulkUnitPrice.Create(
+        SingleAndBulkUnitPricing.Create(
             withProductCode ?? "FooBar",
             withSingleUnitPrice ?? 1m,
             withBulkUnitSize ?? 3,

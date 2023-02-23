@@ -3,7 +3,7 @@ using Terminal.Helpers;
 
 namespace Terminal.Models;
 
-public record SingleAndBulkUnitPrice : IProductPrice
+public record SingleAndBulkUnitPricing : IProductPricing
 {
     public string ProductCode { get; }
 
@@ -11,7 +11,7 @@ public record SingleAndBulkUnitPrice : IProductPrice
     private int BulkUnitSize { get; }
     private decimal BulkUnitPrice { get; }
 
-    private SingleAndBulkUnitPrice(
+    private SingleAndBulkUnitPricing(
         string productCode,
         decimal singleUnitPrice,
         int bulkUnitSize,
@@ -24,7 +24,7 @@ public record SingleAndBulkUnitPrice : IProductPrice
         BulkUnitPrice = bulkUnitPrice;
     }
 
-    public decimal CalculateTotalFor(int productQuantity)
+    public decimal GetTotalPriceFor(int productQuantity)
     {
         var result = 0m;
         var remainder = productQuantity;
@@ -40,7 +40,7 @@ public record SingleAndBulkUnitPrice : IProductPrice
         return result;
     }
 
-    public static SingleAndBulkUnitPrice Create(
+    public static SingleAndBulkUnitPricing Create(
         string productCode,
         decimal singleUnitPrice,
         int bulkUnitSize,
@@ -54,7 +54,7 @@ public record SingleAndBulkUnitPrice : IProductPrice
             bulkUnitPrice
         );
 
-        return new SingleAndBulkUnitPrice(
+        return new SingleAndBulkUnitPricing(
             productCode,
             singleUnitPrice,
             bulkUnitSize,

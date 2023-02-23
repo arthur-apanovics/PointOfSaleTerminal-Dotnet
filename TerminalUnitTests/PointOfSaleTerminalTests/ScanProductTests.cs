@@ -13,7 +13,7 @@ public class ScanProductTests
         const string productCode = "YumYum";
         var terminal = PointOfSaleTerminalBuilder.Build(
             withPricingService: PricingServiceBuilder.Build(
-                withPrice: SingleUnitPriceBuilder.Build(
+                withPricing: SingleUnitPriceBuilder.Build(
                     withProductCode: productCode
                 )
             )

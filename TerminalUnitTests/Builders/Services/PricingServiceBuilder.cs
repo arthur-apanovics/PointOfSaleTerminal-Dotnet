@@ -7,7 +7,7 @@ namespace TerminalUnitTests.Builders.Services;
 
 public static class PricingServiceBuilder
 {
-    private static readonly IProductPrice[] DefaultPricing =
+    private static readonly IProductPricing[] DefaultPricing =
     {
         SingleAndBulkUnitPriceBuilder.Build(
             withProductCode: "A",
@@ -32,10 +32,10 @@ public static class PricingServiceBuilder
     };
 
     public static PricingService Build(
-        IEnumerable<IProductPrice>? withPricing = null
+        IEnumerable<IProductPricing>? withPricing = null
     ) =>
         new(withPricing ?? DefaultPricing);
 
-    public static PricingService Build(IProductPrice withPrice) =>
-        new(new[] { withPrice });
+    public static PricingService Build(IProductPricing withPricing) =>
+        new(new[] { withPricing });
 }

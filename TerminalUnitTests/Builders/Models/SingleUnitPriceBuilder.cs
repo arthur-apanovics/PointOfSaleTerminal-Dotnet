@@ -4,11 +4,11 @@ namespace TerminalUnitTests.Builders.Models;
 
 public static class SingleUnitPriceBuilder
 {
-    public static SingleUnitPrice Build(
+    public static SingleUnitPricing Build(
         string? withProductCode = null,
         decimal? withUnitPrice = null
     ) =>
-        SingleUnitPrice.Create(
+        SingleUnitPricing.Create(
             withProductCode ?? "Foo",
             withUnitPrice ?? 0.01m
         );

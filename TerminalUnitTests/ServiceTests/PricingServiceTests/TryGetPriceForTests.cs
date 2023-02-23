@@ -13,7 +13,7 @@ public class TryGetPriceForTests
         const string productCode = "XYZ";
         var expectedPrice =
             SingleUnitPriceBuilder.Build(withProductCode: productCode);
-        var service = PricingServiceBuilder.Build(withPrice: expectedPrice);
+        var service = PricingServiceBuilder.Build(withPricing: expectedPrice);
 
         // Act
         var hasPrice = service.TryGetPriceFor(productCode, out var actualPrice);
@@ -28,7 +28,7 @@ public class TryGetPriceForTests
     {
         // Arrange
         var service = PricingServiceBuilder.Build(
-            withPrice: SingleUnitPriceBuilder.Build(withProductCode: "Foo")
+            withPricing: SingleUnitPriceBuilder.Build(withProductCode: "Foo")
         );
 
         // Act

@@ -18,10 +18,10 @@ public class CalculateTotalForTests
     )
     {
         // Arrange
-        var price = SingleUnitPrice.Create("_", pricePerUnit);
+        var price = SingleUnitPricing.Create("_", pricePerUnit);
 
         // Act
-        var actualTotal = price.CalculateTotalFor(unitQuantity);
+        var actualTotal = price.GetTotalPriceFor(unitQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);

@@ -53,9 +53,9 @@ public static class BulkPricingProviders
             yield return new object[] { scenario };
     }
 
-    private static readonly IProductPrice[] TestPricing =
+    private static readonly IProductPricing[] TestPricing =
     {
-        SingleAndBulkUnitPrice.Create(
+        SingleAndBulkUnitPricing.Create(
             productCode: "A",
             singleUnitPrice: 1.25m,
             bulkUnitSize: 3,
@@ -65,7 +65,7 @@ public static class BulkPricingProviders
             withProductCode: "B",
             withUnitPrice: 4.25m
         ),
-        SingleAndBulkUnitPrice.Create(
+        SingleAndBulkUnitPricing.Create(
             productCode: "C",
             singleUnitPrice: 1m,
             bulkUnitSize: 6,
@@ -78,7 +78,7 @@ public static class BulkPricingProviders
     };
 
     public record ProductCodesAndTotalScenario(
-        IProductPrice[] Pricing,
+        IProductPricing[] Pricing,
         string[] ProductCodes,
         decimal ExpectedTotal
     )

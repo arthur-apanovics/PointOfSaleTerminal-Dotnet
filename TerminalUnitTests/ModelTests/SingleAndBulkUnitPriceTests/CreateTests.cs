@@ -14,7 +14,7 @@ public class CreateTests
     public void ThrowsWhenInvalidProductCodeProvided(string invalidCode)
     {
         // Arrange/Act
-        var actual = () => SingleAndBulkUnitPrice.Create(
+        var actual = () => SingleAndBulkUnitPricing.Create(
             productCode: invalidCode,
             singleUnitPrice: 1m,
             bulkUnitSize: 2,
@@ -33,7 +33,7 @@ public class CreateTests
     public void DoesNotThrowWhenValidProductCodeProvided(string validCode)
     {
         // Arrange/Act
-        var actual = () => SingleAndBulkUnitPrice.Create(
+        var actual = () => SingleAndBulkUnitPricing.Create(
             productCode: validCode,
             singleUnitPrice: 1m,
             bulkUnitSize: 2,
@@ -50,7 +50,7 @@ public class CreateTests
     public void ThrowsWhenSingleUnitPriceNotValid(decimal value)
     {
         // Arrange/Act
-        var actual = () => SingleAndBulkUnitPrice.Create(
+        var actual = () => SingleAndBulkUnitPricing.Create(
             productCode: "_",
             singleUnitPrice: value,
             bulkUnitSize: 2,
@@ -68,7 +68,7 @@ public class CreateTests
     public void ThrowsWhenBulkUnitSizeNotValid(int value)
     {
         // Arrange/Act
-        var actual = () => SingleAndBulkUnitPrice.Create(
+        var actual = () => SingleAndBulkUnitPricing.Create(
             productCode: "_",
             singleUnitPrice: 1m,
             bulkUnitSize: value,
@@ -83,7 +83,7 @@ public class CreateTests
     public void ThrowsWhenSingleUnitPriceIsEqualToBulkUnitPrice()
     {
         // Arrange/Act
-        var actual = () => SingleAndBulkUnitPrice.Create(
+        var actual = () => SingleAndBulkUnitPricing.Create(
             productCode: "_",
             singleUnitPrice: 20m,
             bulkUnitSize: 2,

@@ -10,7 +10,7 @@ public class CalculateTotalForTests
     public void ReturnsExpectedTotalPrice(BulkPriceScenario scenario)
     {
         // Arrange
-        var price = SingleAndBulkUnitPrice.Create(
+        var price = SingleAndBulkUnitPricing.Create(
             productCode: "_",
             singleUnitPrice: scenario.SingleUnitPrice,
             bulkUnitSize: scenario.BulkUnitSize,
@@ -18,7 +18,7 @@ public class CalculateTotalForTests
         );
 
         // Act
-        var actualTotal = price.CalculateTotalFor(scenario.UnitQuantity);
+        var actualTotal = price.GetTotalPriceFor(scenario.UnitQuantity);
 
         // Assert
         actualTotal.Should().Be(scenario.ExpectedTotalPrice);

@@ -8,15 +8,15 @@ namespace Terminal.Services;
 
 public interface IPricingService
 {
-    bool TryGetPriceFor(string productCode, out IProductPrice? productPrice);
+    bool TryGetPriceFor(string productCode, out IProductPricing? productPrice);
     decimal CalculateTotalFor(IEnumerable<string> productCodes);
 }
 
 public class PricingService : IPricingService
 {
-    private readonly List<IProductPrice> _pricing;
+    private readonly List<IProductPricing> _pricing;
 
-    public PricingService(IEnumerable<IProductPrice> pricing)
+    public PricingService(IEnumerable<IProductPricing> pricing)
     {
         var pricingList = pricing.ToList();
         ThrowIfDuplicateProductCodePresentIn(pricingList);
@@ -26,7 +26,7 @@ public class PricingService : IPricingService
 
     public bool TryGetPriceFor(
         string productCode,
-        out IProductPrice? productPrice
+        out IProductPricing? productPrice
     )
     {
         if (HasPriceFor(productCode))
@@ -52,7 +52,7 @@ public class PricingService : IPricingService
         foreach (var (productCode, qty) in codeToQty)
         {
             var productPricing = GetPricingFor(productCode);
-            total += productPricing.CalculateTotalFor(qty);
+            total += productPricing.GetTotalPriceFor(qty);
         }
 
         return total;
@@ -63,14 +63,14 @@ public class PricingService : IPricingService
     ) =>
         productCodes.GroupBy(c => c).ToDictionary(c => c.Key, c => c.Count());
 
-    private IProductPrice GetPricingFor(string productCode) =>
+    private IProductPricing GetPricingFor(string productCode) =>
         _pricing.First(p => p.ProductCode == productCode);
 
     private bool HasPriceFor(string productCode) =>
         _pricing.Any(p => p.ProductCode == productCode);
 
     private void ThrowIfDuplicateProductCodePresentIn(
-        IEnumerable<IProductPrice> pricing
+        IEnumerable<IProductPricing> pricing
     )
     {
         if (pricing.HasDuplicates(p => p.ProductCode))

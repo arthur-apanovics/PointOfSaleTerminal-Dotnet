@@ -1,23 +1,23 @@
 namespace Terminal.Models;
 
-public record SingleUnitPrice : IProductPrice
+public record SingleUnitPricing : IProductPricing
 {
     public string ProductCode { get; }
 
     private decimal UnitPrice { get; }
 
-    private SingleUnitPrice(string productCode, decimal unitPrice)
+    private SingleUnitPricing(string productCode, decimal unitPrice)
     {
         ProductCode = productCode;
         UnitPrice = unitPrice;
     }
 
-    public decimal CalculateTotalFor(int productQuantity)
+    public decimal GetTotalPriceFor(int productQuantity)
     {
         return UnitPrice * productQuantity;
     }
 
-    public static SingleUnitPrice
+    public static SingleUnitPricing
         Create(string productCode, decimal unitPrice) =>
         new(productCode, unitPrice);
 }

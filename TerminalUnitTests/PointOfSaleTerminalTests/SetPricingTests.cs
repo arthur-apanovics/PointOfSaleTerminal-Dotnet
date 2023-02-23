@@ -13,7 +13,7 @@ public class SetPricingTests
         const string productCode = "ZYX";
         var terminal = PointOfSaleTerminalBuilder.Build();
         var pricingService = PricingServiceBuilder.Build(
-            withPrice: SingleUnitPriceBuilder.Build(
+            withPricing: SingleUnitPriceBuilder.Build(
                 withProductCode: productCode
             )
         );

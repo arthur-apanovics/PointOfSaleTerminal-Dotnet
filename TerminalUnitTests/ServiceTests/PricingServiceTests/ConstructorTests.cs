@@ -11,7 +11,7 @@ public class ConstructorTests
     public void ThrowsWhenDuplicateProductCodePresentInPricing()
     {
         // Arrange
-        var invalidPricing = new IProductPrice[]
+        var invalidPricing = new IProductPricing[]
         {
             SingleUnitPriceBuilder.Build("Foo"),
             SingleUnitPriceBuilder.Build("Bar"),
