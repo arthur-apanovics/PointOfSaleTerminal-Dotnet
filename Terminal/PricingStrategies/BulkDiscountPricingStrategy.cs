@@ -21,29 +21,29 @@ public class BulkDiscountPricingStrategy : IDiscountablePricingStrategy
         _bulkProductPrices = ValidateBulkPricingOrThrow(bulkProductPricing);
     }
 
-    public bool HasPricing(string code)
+    public bool HasPriceFor(string productCode)
     {
-        return _pricingStrategy.HasPricing(code);
+        return _pricingStrategy.HasPriceFor(productCode);
     }
 
-    public decimal GetPrice(string code)
+    public decimal GetPriceFor(string productCode)
     {
-        return _pricingStrategy.GetPrice(code);
+        return _pricingStrategy.GetPriceFor(productCode);
     }
 
-    public decimal CalculateTotal(string code, int quantity)
+    public decimal CalculateTotalFor(string productCode, int productQuantity)
     {
-        if (quantity < 0)
+        if (productQuantity < 0)
             throw new ArgumentException(
                 "Cannot calculate total for negative quantities"
             );
 
-        return CalculateTotalWithoutGuards(code, quantity);
+        return CalculateTotalWithoutGuards(productCode, productQuantity);
     }
 
-    public decimal CalculateTotal(IEnumerable<string> codes)
+    public decimal CalculateTotalFor(IEnumerable<string> productCodes)
     {
-        var codeList = codes.ToList();
+        var codeList = productCodes.ToList();
         if (!codeList.Any())
             return 0;
 
@@ -52,21 +52,21 @@ public class BulkDiscountPricingStrategy : IDiscountablePricingStrategy
             .ToDictionary(x => x.Key, z => z.Count());
 
         foreach (var (code, quantity) in codeToQuantity)
-            result += CalculateTotal(code, quantity);
+            result += CalculateTotalFor(code, quantity);
 
         return result;
     }
 
-    public bool HasDiscountedPricing(string code)
+    public bool HasDiscountedPricingFor(string productCode)
     {
-        return _bulkProductPrices.Any(bpp => bpp.ProductCode == code);
+        return _bulkProductPrices.Any(bpp => bpp.ProductCode == productCode);
     }
 
     private decimal CalculateTotalWithoutGuards(string code, int quantity)
     {
         var remaining = quantity;
         (var result, remaining) = TotalWithDiscount(code, remaining);
-        result += GetPrice(code) * remaining;
+        result += GetPriceFor(code) * remaining;
 
         return result;
     }
@@ -79,7 +79,7 @@ public class BulkDiscountPricingStrategy : IDiscountablePricingStrategy
         var result = 0m;
         var remainder = quantity;
 
-        if (!HasDiscountedPricing(code))
+        if (!HasDiscountedPricingFor(code))
             return (result, remainder);
 
         // opting to use while loop instead of arithmetic for simplicity/readability

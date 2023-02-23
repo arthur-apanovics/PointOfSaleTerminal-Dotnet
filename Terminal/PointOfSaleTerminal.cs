@@ -40,7 +40,7 @@ public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
         CheckPricingStrategySetOrThrow();
 
-        if (!_pricingStrategy!.HasPricing(code))
+        if (!_pricingStrategy!.HasPriceFor(code))
             throw new ArgumentException(
                 $"Product with code '{code}' not found in pricing list"
             );
@@ -52,7 +52,7 @@ public class PointOfSaleTerminal : IPointOfSaleTerminal
     {
         CheckPricingStrategySetOrThrow();
 
-        return _pricingStrategy!.CalculateTotal(_scannedProductCodes);
+        return _pricingStrategy!.CalculateTotalFor(_scannedProductCodes);
     }
 
     // Note: A constructor with a pricing strategy argument would be

@@ -4,7 +4,7 @@ using TerminalUnitTests.Builders.PricingStrategies;
 
 namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class GetPriceTests
+public class GetPriceForTests
 {
     [Fact]
     public void ReturnsExpectedProductPrice()
@@ -24,7 +24,7 @@ public class GetPriceTests
         );
 
         // Act
-        var actualPrice = strategy.GetPrice(productCode);
+        var actualPrice = strategy.GetPriceFor(productCode);
 
         // Assert
         actualPrice.Should().Be(expectedPrice);
@@ -39,7 +39,7 @@ public class GetPriceTests
         );
 
         // Act
-        var actual = () => strategy.GetPrice("Bar");
+        var actual = () => strategy.GetPriceFor("Bar");
 
         // Assert
         actual.Should().ThrowExactly<ArgumentOutOfRangeException>();

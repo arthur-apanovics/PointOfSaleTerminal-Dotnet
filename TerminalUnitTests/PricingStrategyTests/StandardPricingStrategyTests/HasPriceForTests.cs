@@ -3,7 +3,7 @@ using TerminalUnitTests.Builders.PricingStrategies;
 
 namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class HasPricingTests
+public class HasPriceForTests
 {
     [Fact]
     public void ReturnsTrueWhenProductPriceExists()
@@ -18,7 +18,7 @@ public class HasPricingTests
         );
 
         // Act
-        var actual = strategy.HasPricing(productCode);
+        var actual = strategy.HasPriceFor(productCode);
 
         // Assert
         actual.Should().BeTrue();
@@ -33,7 +33,7 @@ public class HasPricingTests
         );
 
         // Act
-        var actual = strategy.HasPricing(code: "Bar");
+        var actual = strategy.HasPriceFor(productCode: "Bar");
 
         // Assert
         actual.Should().BeFalse();

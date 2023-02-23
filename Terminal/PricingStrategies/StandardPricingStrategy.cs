@@ -17,36 +17,36 @@ public class StandardPricingStrategy : IPricingStrategy
         _codeToPriceMap = productList.ToDictionary(p => p.Code, p => p.Price);
     }
 
-    public bool HasPricing(string code)
+    public bool HasPriceFor(string productCode)
     {
-        return _codeToPriceMap.ContainsKey(code);
+        return _codeToPriceMap.ContainsKey(productCode);
     }
 
-    public decimal GetPrice(string code)
+    public decimal GetPriceFor(string productCode)
     {
-        if (!HasPricing(code))
+        if (!HasPriceFor(productCode))
             throw new ArgumentOutOfRangeException(
-                $"No price found for product with code '{code}'"
+                $"No price found for product with code '{productCode}'"
             );
 
-        return _codeToPriceMap[code];
+        return _codeToPriceMap[productCode];
     }
 
-    public decimal CalculateTotal(string code, int quantity)
+    public decimal CalculateTotalFor(string productCode, int productQuantity)
     {
-        return quantity switch
+        return productQuantity switch
         {
             0 => 0,
             < 0 => throw new ArgumentException(
                 "Cannot calculate total for negative quantities"
             ),
-            _ => CalculateTotalWithoutGuards(code, quantity)
+            _ => CalculateTotalWithoutGuards(productCode, productQuantity)
         };
     }
 
-    public decimal CalculateTotal(IEnumerable<string> codes)
+    public decimal CalculateTotalFor(IEnumerable<string> productCodes)
     {
-        var codeList = codes.ToList();
+        var codeList = productCodes.ToList();
         if (!codeList.Any())
             return 0;
 
@@ -54,7 +54,7 @@ public class StandardPricingStrategy : IPricingStrategy
         var codeToQuantity = GroupByCode(codeList);
 
         foreach (var (code, quantity) in codeToQuantity)
-            result += CalculateTotal(code, quantity);
+            result += CalculateTotalFor(code, quantity);
 
         return result;
     }
@@ -64,7 +64,7 @@ public class StandardPricingStrategy : IPricingStrategy
         int quantity
     )
     {
-        return GetPrice(code) * quantity;
+        return GetPriceFor(code) * quantity;
     }
 
     private static Dictionary<string, int> GroupByCode(

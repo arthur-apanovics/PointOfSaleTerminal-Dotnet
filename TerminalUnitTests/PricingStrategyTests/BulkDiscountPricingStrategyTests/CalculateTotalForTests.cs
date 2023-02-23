@@ -4,9 +4,10 @@ using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.PricingStrategyTests.BulkPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.
+    BulkDiscountPricingStrategyTests;
 
-public class CalculateTotalTests
+public class CalculateTotalForTests
 {
     [Theory]
     [MemberData(
@@ -29,7 +30,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCodes);
+        var actualTotal = strategy.CalculateTotalFor(productCodes);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -57,7 +58,8 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCode, productQuantity);
+        var actualTotal =
+            strategy.CalculateTotalFor(productCode, productQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -78,8 +80,10 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actual = () =>
-            strategy.CalculateTotal(code: productCode, quantity: -1);
+        var actual = () => strategy.CalculateTotalFor(
+            productCode: productCode,
+            productQuantity: -1
+        );
 
         // Assert
         actual.Should().ThrowExactly<ArgumentException>();

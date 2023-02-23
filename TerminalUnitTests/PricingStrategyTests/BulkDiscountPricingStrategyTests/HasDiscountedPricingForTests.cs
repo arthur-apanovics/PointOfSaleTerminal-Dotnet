@@ -18,7 +18,7 @@ public class HasDiscountedPricingTests
         );
 
         // Act
-        var actual = strategy.HasDiscountedPricing(productCode);
+        var actual = strategy.HasDiscountedPricingFor(productCode);
 
         // Assert
         actual.Should().BeTrue();
@@ -36,7 +36,7 @@ public class HasDiscountedPricingTests
         );
 
         // Act
-        var actual = strategy.HasDiscountedPricing(code: "Bar");
+        var actual = strategy.HasDiscountedPricingFor(productCode: "Bar");
 
         // Assert
         actual.Should().BeFalse();

@@ -6,7 +6,7 @@ using TerminalUnitTests.Builders.PricingStrategies;
 
 namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class CalculateTotalTests
+public class CalculateTotalForTests
 {
     [Theory]
     [MemberData(nameof(ProductCodeSequenceProvider))]
@@ -22,7 +22,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCodes);
+        var actualTotal = strategy.CalculateTotalFor(productCodes);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -43,7 +43,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCode, productQuantity);
+        var actualTotal = strategy.CalculateTotalFor(productCode, productQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -58,7 +58,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actual = () => strategy.CalculateTotal(code: "X", quantity: -1);
+        var actual = () => strategy.CalculateTotalFor(productCode: "X", productQuantity: -1);
 
         // Assert
         actual.Should().ThrowExactly<ArgumentException>();
