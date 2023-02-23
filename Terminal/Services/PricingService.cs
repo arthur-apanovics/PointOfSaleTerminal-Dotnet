@@ -14,11 +14,11 @@ public interface IPricingService
 
 public class PricingService : IPricingService
 {
-    private readonly List<IProductPricing> _pricing;
+    private readonly IProductPricing[] _pricing;
 
     public PricingService(IEnumerable<IProductPricing> pricing)
     {
-        var pricingList = pricing.ToList();
+        var pricingList = pricing.ToArray();
         ThrowIfDuplicateProductCodePresentIn(pricingList);
 
         _pricing = pricingList;
