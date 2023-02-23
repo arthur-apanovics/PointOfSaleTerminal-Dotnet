@@ -2,7 +2,7 @@
 using Terminal.Models;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.Models.BulkProductPriceTests;
+namespace TerminalUnitTests.ModelTests.BulkProductPriceTests;
 
 public class ConstructorTests
 {
@@ -12,7 +12,8 @@ public class ConstructorTests
     public void ThrowsWhenThresholdValueNotValid(int threshold)
     {
         // Arrange
-        var actual = () => BulkProductPrice.Create(threshold, bulkPrice: 3m);
+        var actual = () =>
+            BulkProductPrice.Create("Foo", threshold, bulkPrice: 3m);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -26,7 +27,8 @@ public class ConstructorTests
     public void ThrowsWhenBulkPriceValueNotValid(decimal price)
     {
         // Arrange
-        var actual = () => BulkProductPrice.Create(bulkThreshold: 3, price);
+        var actual = () =>
+            BulkProductPrice.Create("Foo", bulkThreshold: 3, price);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();

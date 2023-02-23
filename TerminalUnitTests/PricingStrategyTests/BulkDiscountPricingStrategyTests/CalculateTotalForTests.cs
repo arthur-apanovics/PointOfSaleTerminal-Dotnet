@@ -1,13 +1,13 @@
 using System;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.PricingTests.BulkPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.
+    BulkDiscountPricingStrategyTests;
 
-public class CalculateTotalTests
+public class CalculateTotalForTests
 {
     [Theory]
     [MemberData(
@@ -15,14 +15,14 @@ public class CalculateTotalTests
         MemberType = typeof(BulkPricingProviders)
     )]
     public void CalculatesExpectedTotalsForProductCodeSequences(
-        Product[] pricing,
-        BulkProduct[] bulkPricing,
+        ProductPrice[] pricing,
+        BulkProductPrice[] bulkPricing,
         string[] productCodes,
         decimal expectedTotal
     )
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
                 withProductPricing: pricing
             ),
@@ -30,7 +30,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCodes);
+        var actualTotal = strategy.CalculateTotalFor(productCodes);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -42,15 +42,15 @@ public class CalculateTotalTests
         MemberType = typeof(BulkPricingProviders)
     )]
     public void CalculatesExpectedTotalsForSpecifiedProductQuantities(
-        Product[] pricing,
-        BulkProduct[] bulkPricing,
+        ProductPrice[] pricing,
+        BulkProductPrice[] bulkPricing,
         string productCode,
         int productQuantity,
         decimal expectedTotal
     )
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
                 withProductPricing: pricing
             ),
@@ -58,7 +58,8 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCode, productQuantity);
+        var actualTotal =
+            strategy.CalculateTotalFor(productCode, productQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -69,15 +70,20 @@ public class CalculateTotalTests
     {
         // Arrange
         const string productCode = "X";
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withPricingStrategy: StandardPricingStrategyBuilder.Build(
-                withProductPricing: new[] { ProductBuilder.Build(productCode) }
+                withProductPricing: new[]
+                {
+                    ProductPriceBuilder.Build(productCode)
+                }
             )
         );
 
         // Act
-        var actual = () =>
-            strategy.CalculateTotal(code: productCode, quantity: -1);
+        var actual = () => strategy.CalculateTotalFor(
+            productCode: productCode,
+            productQuantity: -1
+        );
 
         // Assert
         actual.Should().ThrowExactly<ArgumentException>();

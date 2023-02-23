@@ -6,50 +6,44 @@ using Terminal.Models;
 
 namespace Terminal.PricingStrategies;
 
-public class BulkPricingStrategy : IDiscountablePricingStrategy
+public class BulkDiscountPricingStrategy : IDiscountablePricingStrategy
 {
     private readonly IPricingStrategy _pricingStrategy;
+    private readonly BulkProductPrice[] _bulkProductPrices;
 
-    private readonly Dictionary<string, BulkProductPrice>
-        _productCodeToBulkPrice;
-
-    public BulkPricingStrategy(
+    public BulkDiscountPricingStrategy(
         IPricingStrategy pricingStrategy,
-        IEnumerable<BulkProduct> bulkPricing
+        IEnumerable<BulkProductPrice> bulkProductPricing
     )
     {
         _pricingStrategy = pricingStrategy;
-        var bulkPriceList = bulkPricing.ToList();
-        ValidatePricingOrThrow(bulkPriceList);
-        _productCodeToBulkPrice = bulkPriceList.ToDictionary(
-            b => b.ProductCode,
-            b => b.BulkPrice
-        );
+
+        _bulkProductPrices = ValidateBulkPricingOrThrow(bulkProductPricing);
     }
 
-    public bool HasPricing(string code)
+    public bool HasPriceFor(string productCode)
     {
-        return _pricingStrategy.HasPricing(code);
+        return _pricingStrategy.HasPriceFor(productCode);
     }
 
-    public decimal GetPrice(string code)
+    public decimal GetPriceFor(string productCode)
     {
-        return _pricingStrategy.GetPrice(code);
+        return _pricingStrategy.GetPriceFor(productCode);
     }
 
-    public decimal CalculateTotal(string code, int quantity)
+    public decimal CalculateTotalFor(string productCode, int productQuantity)
     {
-        if (quantity < 0)
+        if (productQuantity < 0)
             throw new ArgumentException(
                 "Cannot calculate total for negative quantities"
             );
 
-        return CalculateTotalWithoutGuards(code, quantity);
+        return CalculateTotalWithoutGuards(productCode, productQuantity);
     }
 
-    public decimal CalculateTotal(IEnumerable<string> codes)
+    public decimal CalculateTotalFor(IEnumerable<string> productCodes)
     {
-        var codeList = codes.ToList();
+        var codeList = productCodes.ToList();
         if (!codeList.Any())
             return 0;
 
@@ -58,21 +52,21 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
             .ToDictionary(x => x.Key, z => z.Count());
 
         foreach (var (code, quantity) in codeToQuantity)
-            result += CalculateTotal(code, quantity);
+            result += CalculateTotalFor(code, quantity);
 
         return result;
     }
 
-    public bool HasDiscountedPricing(string code)
+    public bool HasDiscountedPricingFor(string productCode)
     {
-        return _productCodeToBulkPrice.ContainsKey(code);
+        return _bulkProductPrices.Any(bpp => bpp.ProductCode == productCode);
     }
 
     private decimal CalculateTotalWithoutGuards(string code, int quantity)
     {
         var remaining = quantity;
         (var result, remaining) = TotalWithDiscount(code, remaining);
-        result += GetPrice(code) * remaining;
+        result += GetPriceFor(code) * remaining;
 
         return result;
     }
@@ -85,11 +79,12 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
         var result = 0m;
         var remainder = quantity;
 
-        if (!HasDiscountedPricing(code))
+        if (!HasDiscountedPricingFor(code))
             return (result, remainder);
 
         // opting to use while loop instead of arithmetic for simplicity/readability
-        var bulkPrice = _productCodeToBulkPrice[code];
+        var bulkPrice =
+            _bulkProductPrices.First(bpp => bpp.ProductCode == code);
         while (remainder >= bulkPrice.BulkThreshold)
         {
             result += bulkPrice.BulkPrice;
@@ -99,13 +94,18 @@ public class BulkPricingStrategy : IDiscountablePricingStrategy
         return (result, remainder);
     }
 
-    private static void ValidatePricingOrThrow(
-        IEnumerable<BulkProduct> bulkPrices
+    private static BulkProductPrice[] ValidateBulkPricingOrThrow(
+        IEnumerable<BulkProductPrice> bulkPrices
     )
     {
-        if (bulkPrices.HasDuplicates(b => b.ProductCode))
+        var pricingArray =
+            bulkPrices as BulkProductPrice[] ?? bulkPrices.ToArray();
+
+        if (pricingArray.HasDuplicates(b => b.ProductCode))
             throw new ArgumentException(
                 "Bulk pricing list cannot contain duplicate products"
             );
+
+        return pricingArray;
     }
 }

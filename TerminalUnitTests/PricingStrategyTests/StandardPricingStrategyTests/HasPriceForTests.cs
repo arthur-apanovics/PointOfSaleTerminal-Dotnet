@@ -1,10 +1,9 @@
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class HasPricingTests
+public class HasPriceForTests
 {
     [Fact]
     public void ReturnsTrueWhenProductPriceExists()
@@ -14,12 +13,12 @@ public class HasPricingTests
         var strategy = StandardPricingStrategyBuilder.Build(
             withProductPricing: new[]
             {
-                ProductBuilder.Build(withCode: productCode)
+                ProductPriceBuilder.Build(withCode: productCode)
             }
         );
 
         // Act
-        var actual = strategy.HasPricing(productCode);
+        var actual = strategy.HasPriceFor(productCode);
 
         // Assert
         actual.Should().BeTrue();
@@ -30,11 +29,11 @@ public class HasPricingTests
     {
         // Arrange
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: new[] { ProductBuilder.Build("Foo") }
+            withProductPricing: new[] { ProductPriceBuilder.Build("Foo") }
         );
 
         // Act
-        var actual = strategy.HasPricing(code: "Bar");
+        var actual = strategy.HasPriceFor(productCode: "Bar");
 
         // Assert
         actual.Should().BeFalse();

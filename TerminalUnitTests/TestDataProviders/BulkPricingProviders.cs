@@ -8,23 +8,25 @@ namespace TerminalUnitTests.TestDataProviders;
 
 public static class BulkPricingProviders
 {
-    private static readonly Product[] StandardPricing =
+    private static readonly ProductPrice[] StandardPricing =
     {
-        ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-        ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-        ProductBuilder.Build(withCode: "C", withPrice: 1m),
-        ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+        ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+        ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+        ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
+        ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
     };
 
-    private static readonly BulkProduct[] BulkPricing =
+    private static readonly BulkProductPrice[] BulkPricing =
     {
-        BulkProduct.Create(
-            productCode: "A",
-            BulkProductPrice.Create(bulkThreshold: 3, bulkPrice: 3m)
+        BulkProductPriceBuilder.Build(
+            withProductCode: "A",
+            withBulkThreshold: 3,
+            withBulkPrice: 3m
         ),
-        BulkProduct.Create(
-            productCode: "C",
-            BulkProductPrice.Create(bulkThreshold: 6, bulkPrice: 5m)
+        BulkProductPriceBuilder.Build(
+            withProductCode: "C",
+            withBulkThreshold: 6,
+            withBulkPrice: 5m
         )
     };
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Terminal;
 using Terminal.Models;
 using Terminal.PricingStrategies;
@@ -44,15 +43,15 @@ public class TerminalTests
         MemberType = typeof(BulkPricingProviders)
     )]
     public void CalculateTotal_WithBulkDiscount_CalculatesTotal(
-        Product[] pricing,
-        BulkProduct[] bulkPricing,
+        ProductPrice[] pricing,
+        BulkProductPrice[] bulkPricing,
         string[] codes,
         decimal expected
     )
     {
         var sut = new TerminalBuilder().WithMultipleProducts(pricing)
             .WithPricingStrategy(
-                new BulkPricingStrategy(
+                new BulkDiscountPricingStrategy(
                     StandardPricingStrategyBuilder.Build(
                         withProductPricing: pricing
                     ),
@@ -78,10 +77,10 @@ public class TerminalTests
     {
         var pricing = new[]
         {
-            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-            ProductBuilder.Build(withCode: "C", withPrice: 1m),
-            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+            ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
         var sut = new TerminalBuilder().WithMultipleProducts(pricing).Build();
 

@@ -2,7 +2,7 @@
 using Terminal.Models;
 using TerminalUnitTests.TestDataProviders;
 
-namespace TerminalUnitTests.Models.ProductTests;
+namespace TerminalUnitTests.ModelTests.ProductPriceTests;
 
 public class CreateTests
 {
@@ -14,7 +14,7 @@ public class CreateTests
     public void ThrowsWhenProductCodeNotValid(string code)
     {
         // Arrange
-        var actual = () => Product.Create(code, price: 3m);
+        var actual = () => ProductPrice.Create(code, price: 3m);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -28,7 +28,7 @@ public class CreateTests
     public void ThrowsWhenProductPriceNotValid(decimal price)
     {
         // Arrange
-        var actual = () => Product.Create(code: "X", price);
+        var actual = () => ProductPrice.Create(code: "X", price);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();

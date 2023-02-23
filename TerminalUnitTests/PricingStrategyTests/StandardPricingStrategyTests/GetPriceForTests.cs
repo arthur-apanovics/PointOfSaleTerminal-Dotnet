@@ -1,11 +1,10 @@
 using System;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class GetPriceTests
+public class GetPriceForTests
 {
     [Fact]
     public void ReturnsExpectedProductPrice()
@@ -17,7 +16,7 @@ public class GetPriceTests
         var strategy = StandardPricingStrategyBuilder.Build(
             withProductPricing: new[]
             {
-                ProductBuilder.Build(
+                ProductPriceBuilder.Build(
                     withCode: productCode,
                     withPrice: expectedPrice
                 )
@@ -25,7 +24,7 @@ public class GetPriceTests
         );
 
         // Act
-        var actualPrice = strategy.GetPrice(productCode);
+        var actualPrice = strategy.GetPriceFor(productCode);
 
         // Assert
         actualPrice.Should().Be(expectedPrice);
@@ -36,11 +35,11 @@ public class GetPriceTests
     {
         // Arrange
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: new[] { ProductBuilder.Build(withCode: "Foo") }
+            withProductPricing: new[] { ProductPriceBuilder.Build(withCode: "Foo") }
         );
 
         // Act
-        var actual = () => strategy.GetPrice("Bar");
+        var actual = () => strategy.GetPriceFor("Bar");
 
         // Assert
         actual.Should().ThrowExactly<ArgumentOutOfRangeException>();

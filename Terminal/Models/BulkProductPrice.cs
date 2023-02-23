@@ -5,42 +5,51 @@ namespace Terminal.Models;
 
 public record BulkProductPrice
 {
-    private BulkProductPrice(int bulkThreshold, decimal bulkPrice)
+    private BulkProductPrice(
+        string productCode,
+        int bulkThreshold,
+        decimal bulkPrice
+    )
     {
+        ProductCode = productCode;
         BulkThreshold = bulkThreshold;
         BulkPrice = bulkPrice;
     }
 
     /// <summary>
-    ///     Bulk quantity threshold at which the special price applies.
+    ///     Product code for which the bulk price will be applied to
+    /// </summary>
+    public string ProductCode { get; }
+
+    /// <summary>
+    ///     Bulk quantity threshold at which the special price applies
     /// </summary>
     /// <example>3 for $3.00</example>
     public int BulkThreshold { get; }
 
     /// <summary>
-    ///     Special price for bulk threshold.
+    ///     Special price for each bulk unit
     /// </summary>
     public decimal BulkPrice { get; }
 
-    /// <summary>
-    ///     Represents a quantity at which a special price is applied.
-    /// </summary>
-    /// <param name="bulkThreshold">
-    ///     <see cref="BulkThreshold" />
-    /// </param>
-    /// <param name="bulkPrice">
-    ///     <see cref="BulkPrice" />
-    /// </param>
-    /// <exception cref="ArgumentException">If values are not valid</exception>
-    public static BulkProductPrice Create(int bulkThreshold, decimal bulkPrice)
+    public static BulkProductPrice Create(
+        string productCode,
+        int bulkThreshold,
+        decimal bulkPrice
+    )
+    {
+        ProductValidationHelper.ValidateProductCodeOrThrow(productCode);
+        ThrowIfInvalidBulkThreshold(bulkThreshold);
+        ProductValidationHelper.ValidatePriceOrThrow(bulkPrice);
+
+        return new BulkProductPrice(productCode, bulkThreshold, bulkPrice);
+    }
+
+    private static void ThrowIfInvalidBulkThreshold(int bulkThreshold)
     {
         if (bulkThreshold <= 0)
             throw new ArgumentException(
                 "Bulk threshold cannot be less than or equal to zero"
             );
-
-        ProductValidationHelper.ValidatePriceOrThrow(bulkPrice);
-
-        return new BulkProductPrice(bulkThreshold, bulkPrice);
     }
 }

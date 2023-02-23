@@ -5,23 +5,25 @@ using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.Builders.PricingStrategies;
 
-public static class BulkPricingStrategyBuilder
+public static class BulkDiscountPricingStrategyBuilder
 {
-    private static readonly BulkProduct[] DefaultBulkProductPricing =
+    private static readonly BulkProductPrice[] DefaultBulkProductPricing =
     {
-        BulkProductBuilder.Build(
+        BulkProductPriceBuilder.Build(
             withProductCode: "A",
-            BulkPriceBuilder.Build(withThreshold: 3, withPrice: 3m)
+            withBulkThreshold: 3,
+            withBulkPrice: 3m
         ),
-        BulkProductBuilder.Build(
+        BulkProductPriceBuilder.Build(
             withProductCode: "C",
-            BulkPriceBuilder.Build(withThreshold: 6, withPrice: 5m)
+            withBulkThreshold: 6,
+            withBulkPrice: 5m
         ),
     };
 
-    public static BulkPricingStrategy Build(
+    public static BulkDiscountPricingStrategy Build(
         IPricingStrategy? withPricingStrategy = null,
-        IEnumerable<BulkProduct>? withBulkProductPricing = null
+        IEnumerable<BulkProductPrice>? withBulkProductPricing = null
     ) =>
         new(
             withPricingStrategy ?? StandardPricingStrategyBuilder.Build(),

@@ -7,29 +7,29 @@ public interface IPricingStrategy
     /// <summary>
     ///     Checks if a pricing record exists for given product code.
     /// </summary>
-    /// <param name="code">Product code</param>
+    /// <param name="productCode">Product code</param>
     /// <returns>True if price defined for product code, false otherwise</returns>
-    public bool HasPricing(string code);
+    public bool HasPriceFor(string productCode);
 
     /// <summary>
     ///     Retrieves price for given product code.
     /// </summary>
-    /// <param name="code">Product code</param>
+    /// <param name="productCode">Product code</param>
     /// <returns>Price</returns>
-    public decimal GetPrice(string code);
+    public decimal GetPriceFor(string productCode);
 
     /// <summary>
     ///     Calculates total price for a single product code based on quantity.
     /// </summary>
-    /// <param name="code">Product code</param>
-    /// <param name="quantity">How many instances to calculate for</param>
+    /// <param name="productCode">Product code</param>
+    /// <param name="productQuantity">How many instances to calculate for</param>
     /// <returns>Total price</returns>
-    public decimal CalculateTotal(string code, int quantity);
+    public decimal CalculateTotalFor(string productCode, int productQuantity);
 
     /// <summary>
     ///     Calculates total price for a mixed set of codes.
     /// </summary>
-    /// <param name="codes">Product codes in any order and quantity</param>
+    /// <param name="productCodes">Product codes in any order and quantity</param>
     /// <returns>Total price</returns>
-    public decimal CalculateTotal(IEnumerable<string> codes);
+    public decimal CalculateTotalFor(IEnumerable<string> productCodes);
 }

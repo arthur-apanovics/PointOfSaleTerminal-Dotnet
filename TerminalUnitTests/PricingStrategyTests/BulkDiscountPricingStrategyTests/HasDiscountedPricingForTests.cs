@@ -1,8 +1,8 @@
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.BulkPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.
+    BulkDiscountPricingStrategyTests;
 
 public class HasDiscountedPricingTests
 {
@@ -11,18 +11,15 @@ public class HasDiscountedPricingTests
     {
         // Arrange
         const string productCode = "Q";
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
-                BulkProductBuilder.Build(
-                    withProductCode: productCode,
-                    BulkPriceBuilder.Build()
-                )
+                BulkProductPriceBuilder.Build(withProductCode: productCode)
             }
         );
 
         // Act
-        var actual = strategy.HasDiscountedPricing(productCode);
+        var actual = strategy.HasDiscountedPricingFor(productCode);
 
         // Assert
         actual.Should().BeTrue();
@@ -32,15 +29,15 @@ public class HasDiscountedPricingTests
     public void ReturnsFalseWhenDiscountedProductPriceDoesNotExist()
     {
         // Arrange
-        var strategy = BulkPricingStrategyBuilder.Build(
+        var strategy = BulkDiscountPricingStrategyBuilder.Build(
             withBulkProductPricing: new[]
             {
-                BulkProductBuilder.Build(withProductCode: "Foo")
+                BulkProductPriceBuilder.Build(withProductCode: "Foo")
             }
         );
 
         // Act
-        var actual = strategy.HasDiscountedPricing(code: "Bar");
+        var actual = strategy.HasDiscountedPricingFor(productCode: "Bar");
 
         // Assert
         actual.Should().BeFalse();

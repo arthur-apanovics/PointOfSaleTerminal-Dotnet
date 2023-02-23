@@ -2,9 +2,9 @@
 
 namespace Terminal.Models;
 
-public record Product
+public record ProductPrice
 {
-    private Product(string code, decimal price)
+    private ProductPrice(string code, decimal price)
     {
         Code = code;
         Price = price;
@@ -29,11 +29,11 @@ public record Product
     /// <param name="price">
     ///     <see cref="Price" />
     /// </param>
-    public static Product Create(string code, decimal price)
+    public static ProductPrice Create(string code, decimal price)
     {
         ProductValidationHelper.ValidateProductCodeOrThrow(code);
         ProductValidationHelper.ValidatePriceOrThrow(price);
 
-        return new Product(code, price);
+        return new ProductPrice(code, price);
     }
 }

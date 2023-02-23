@@ -1,10 +1,9 @@
 using System;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
 public class ConstructorTests
 {
@@ -12,7 +11,7 @@ public class ConstructorTests
     public void ThrowsWhenEmptyPricingProvided()
     {
         // Arrange
-        var emptyPricing = Array.Empty<Product>();
+        var emptyPricing = Array.Empty<ProductPrice>();
 
         // Act
         var actual = () => StandardPricingStrategyBuilder.Build(
@@ -29,9 +28,9 @@ public class ConstructorTests
         // Arrange
         var pricingWithDuplicates = new[]
         {
-            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 1m)
+            ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 1m)
         };
 
         // Act

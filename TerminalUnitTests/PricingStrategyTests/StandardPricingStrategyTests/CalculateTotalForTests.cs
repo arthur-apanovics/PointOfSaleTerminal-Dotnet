@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingTests.StandardPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.StandardPricingStrategyTests;
 
-public class CalculateTotalTests
+public class CalculateTotalForTests
 {
     [Theory]
     [MemberData(nameof(ProductCodeSequenceProvider))]
     public void CalculatesExpectedTotalsForProductCodeSequences(
-        Product[] pricing,
+        ProductPrice[] pricing,
         string[] productCodes,
         decimal expectedTotal
     )
@@ -23,7 +22,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCodes);
+        var actualTotal = strategy.CalculateTotalFor(productCodes);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -32,7 +31,7 @@ public class CalculateTotalTests
     [Theory]
     [MemberData(nameof(ProductCodeQuantityProvider))]
     public void CalculatesExpectedTotalsForSpecifiedProductQuantities(
-        Product[] pricing,
+        ProductPrice[] pricing,
         string productCode,
         int productQuantity,
         decimal expectedTotal
@@ -44,7 +43,7 @@ public class CalculateTotalTests
         );
 
         // Act
-        var actualTotal = strategy.CalculateTotal(productCode, productQuantity);
+        var actualTotal = strategy.CalculateTotalFor(productCode, productQuantity);
 
         // Assert
         actualTotal.Should().Be(expectedTotal);
@@ -55,11 +54,11 @@ public class CalculateTotalTests
     {
         // Arrange
         var strategy = StandardPricingStrategyBuilder.Build(
-            withProductPricing: new[] { ProductBuilder.Build("X") }
+            withProductPricing: new[] { ProductPriceBuilder.Build("X") }
         );
 
         // Act
-        var actual = () => strategy.CalculateTotal(code: "X", quantity: -1);
+        var actual = () => strategy.CalculateTotalFor(productCode: "X", productQuantity: -1);
 
         // Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -69,10 +68,10 @@ public class CalculateTotalTests
     {
         var pricing = new[]
         {
-            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
-            ProductBuilder.Build(withCode: "C", withPrice: 1m),
-            ProductBuilder.Build(withCode: "D", withPrice: 0.75m)
+            ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
+            ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
         };
 
         var codesAndTotals =
@@ -93,8 +92,8 @@ public class CalculateTotalTests
     {
         var pricing = new[]
         {
-            ProductBuilder.Build(withCode: "A", withPrice: 1.25m),
-            ProductBuilder.Build(withCode: "B", withPrice: 4.25m),
+            ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
+            ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
         };
 
         var productQtyTotals =
