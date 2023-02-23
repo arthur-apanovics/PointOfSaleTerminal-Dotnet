@@ -17,7 +17,9 @@ public record SingleUnitPricing : IProductPricing
         return UnitPrice * productQuantity;
     }
 
-    public static SingleUnitPricing
-        Create(string productCode, decimal unitPrice) =>
+    public static SingleUnitPricing Create(
+        string productCode,
+        decimal unitPrice
+    ) =>
         new(productCode, unitPrice);
 }
