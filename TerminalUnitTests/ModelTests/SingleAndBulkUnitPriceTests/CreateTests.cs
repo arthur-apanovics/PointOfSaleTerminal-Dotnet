@@ -8,7 +8,7 @@ public class CreateTests
 {
     [Theory]
     [MemberData(
-        nameof(ProductValueProviders.InvalidProductPrices),
+        nameof(ProductValueProviders.InvalidProductCodes),
         MemberType = typeof(ProductValueProviders)
     )]
     public void ThrowsWhenInvalidProductCodeProvided(string invalidCode)
