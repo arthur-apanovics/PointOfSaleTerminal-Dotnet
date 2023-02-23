@@ -47,15 +47,19 @@ public class PricingService : IPricingService
 
         ThrowIfUnknownProductCodesInList(codes);
 
-        var codeToQty = CountDistinctCodes(codes);
-        var total = 0m;
-        foreach (var (productCode, qty) in codeToQty)
+        return TallyUpTotalsFor(codes);
+    }
+
+    private decimal TallyUpTotalsFor(string[] codes)
+    {
+        var result = 0m;
+        foreach (var (productCode, qty) in CountDistinctCodes(codes))
         {
             var productPricing = GetPricingFor(productCode);
-            total += productPricing.GetTotalPriceFor(qty);
+            result += productPricing.GetTotalPriceFor(qty);
         }
 
-        return total;
+        return result;
     }
 
     private static Dictionary<string, int> CountDistinctCodes(
