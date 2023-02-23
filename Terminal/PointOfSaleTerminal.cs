@@ -38,11 +38,11 @@ public class PointOfSaleTerminal : IPointOfSaleTerminal
         return _pricingService!.CalculateTotalFor(_scannedProductCodes);
     }
 
-    // Note: A constructor with a pricing strategy argument would be
-    // preferred to prevent null references (not implemented to comply
-    // with top-level interface example in exercise description).
     private void ThrowIfPricingNotSet()
     {
+        // Note: Injecting the pricing service would be preferred to prevent
+        // null references (not implemented to comply with top-level
+        // interface example in exercise description)
         if (_pricingService is null)
             throw new NullReferenceException(
                 $"{nameof(PointOfSaleTerminal)} has no pricing set. " +
