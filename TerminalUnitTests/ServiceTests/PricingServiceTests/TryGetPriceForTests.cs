@@ -1,3 +1,5 @@
+using Terminal.Models;
+using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.Services;
 
 namespace TerminalUnitTests.ServiceTests.PricingServiceTests;
@@ -9,11 +11,9 @@ public class TryGetPriceForTests
     {
         // Arrange
         const string productCode = "XYZ";
-        const decimal expectedPrice = 10.45m;
-        var service = PricingServiceBuilder.BuildWithSinglePrice(
-            withProductCode: productCode,
-            withProductPrice: expectedPrice
-        );
+        var expectedPrice =
+            SingleUnitPriceBuilder.Build(withProductCode: productCode);
+        var service = PricingServiceBuilder.Build(withPrice: expectedPrice);
 
         // Act
         var hasPrice = service.TryGetPriceFor(productCode, out var actualPrice);
@@ -27,8 +27,9 @@ public class TryGetPriceForTests
     public void ReturnsFalseAndNullWhenProductPriceDoesNotExist()
     {
         // Arrange
-        var service =
-            PricingServiceBuilder.BuildWithSinglePrice(withProductCode: "Foo");
+        var service = PricingServiceBuilder.Build(
+            withPrice: SingleUnitPriceBuilder.Build(withProductCode: "Foo")
+        );
 
         // Act
         var hasPrice = service.TryGetPriceFor("Baz", out var actualPrice);
