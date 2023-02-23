@@ -15,7 +15,7 @@ public class ValidatePriceOrThrowTests
     {
         // Arrange
         var actual = () =>
-            ProductValidationHelper.ValidatePriceOrThrow(productPrice);
+            ProductValidationHelper.ThrowIfProductPriceNotValid(productPrice);
 
         // Act/Assert
         actual.Should().ThrowExactly<ArgumentException>();
@@ -30,7 +30,7 @@ public class ValidatePriceOrThrowTests
     {
         // Arrange
         var actual = () =>
-            ProductValidationHelper.ValidatePriceOrThrow(productPrice);
+            ProductValidationHelper.ThrowIfProductPriceNotValid(productPrice);
 
         // Act/Assert
         actual.Should().NotThrow();

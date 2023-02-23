@@ -1,75 +1,90 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terminal.Models;
-using TerminalUnitTests.Builders;
 using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.TestDataProviders;
 
 public static class BulkPricingProviders
 {
-    private static readonly ProductPrice[] StandardPricing =
+    public static IEnumerable<object[]> ProductCodeAndTotalsProvider()
     {
-        ProductPriceBuilder.Build(withCode: "A", withPrice: 1.25m),
-        ProductPriceBuilder.Build(withCode: "B", withPrice: 4.25m),
-        ProductPriceBuilder.Build(withCode: "C", withPrice: 1m),
-        ProductPriceBuilder.Build(withCode: "D", withPrice: 0.75m)
-    };
+        var scenarios = new ProductCodesAndTotalScenario[]
+        {
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "A", "B", "C", "D", "A", "B", "A" },
+                ExpectedTotal: 13.25m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "C", "C", "C", "C", "C", "C", "C" },
+                ExpectedTotal: 6m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "A", "B", "C", "D" },
+                ExpectedTotal: 7.25m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "B", "B", "B", "B", "B" },
+                ExpectedTotal: 21.25m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "B", "B", "B", "D", "D", "D" },
+                ExpectedTotal: 15m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: new[] { "D" },
+                ExpectedTotal: 0.75m
+            ),
+            new(
+                Pricing: TestPricing,
+                ProductCodes: Array.Empty<string>(),
+                ExpectedTotal: 0
+            ),
+        };
 
-    private static readonly BulkProductPrice[] BulkPricing =
-    {
-        BulkProductPriceBuilder.Build(
-            withProductCode: "A",
-            withBulkThreshold: 3,
-            withBulkPrice: 3m
-        ),
-        BulkProductPriceBuilder.Build(
-            withProductCode: "C",
-            withBulkThreshold: 6,
-            withBulkPrice: 5m
-        )
-    };
-
-    public static IEnumerable<object[]> BulkProductCodesAndTotals()
-    {
-        var productCodesAndTotalPrices =
-            new (string[] ProductCodes, decimal ExpectedTotal)[]
-            {
-                (new[] { "A", "B", "C", "D", "A", "B", "A" }, 13.25m),
-                (new[] { "C", "C", "C", "C", "C", "C", "C" }, 6m),
-                (new[] { "A", "B", "C", "D" }, 7.25m),
-                (new[] { "B", "B", "B", "B", "B" }, 21.25m),
-                (new[] { "B", "B", "B", "D", "D", "D" }, 15m),
-                (new[] { "D" }, 0.75m),
-                (Array.Empty<string>(), 0)
-            };
-
-        foreach (var (codes, discountedTotal) in productCodesAndTotalPrices)
-            yield return new object[]
-            {
-                StandardPricing, BulkPricing, codes, discountedTotal
-            };
+        foreach (var scenario in scenarios)
+            yield return new object[] { scenario };
     }
 
-    public static IEnumerable<object[]> BulkProductQuantityAndTotals()
+    private static readonly IProductPricing[] TestPricing =
     {
-        var productQtyAndTotals =
-            new (string ProductCode, int ProductQuantity, decimal ExpectedTotal)
-                []
-                {
-                    ("A", 0, 0m),
-                    ("A", 1, 1.25m),
-                    ("A", 9, 9m),
-                    ("A", 10, 10.25m),
-                    ("C", 7, 6m),
-                };
+        SingleAndBulkUnitPricing.Create(
+            productCode: "A",
+            singleUnitPrice: 1.25m,
+            bulkUnitSize: 3,
+            bulkUnitPrice: 3m
+        ),
+        SingleUnitPriceBuilder.Build(
+            withProductCode: "B",
+            withUnitPrice: 4.25m
+        ),
+        SingleAndBulkUnitPricing.Create(
+            productCode: "C",
+            singleUnitPrice: 1m,
+            bulkUnitSize: 6,
+            bulkUnitPrice: 5m
+        ),
+        SingleUnitPriceBuilder.Build(
+            withProductCode: "D",
+            withUnitPrice: 0.75m
+        ),
+    };
 
-        foreach (var (code, qty, total) in productQtyAndTotals)
-        {
-            yield return new object[]
-            {
-                StandardPricing, BulkPricing, code, qty, total
-            };
-        }
+    public record ProductCodesAndTotalScenario(
+        IProductPricing[] Pricing,
+        string[] ProductCodes,
+        decimal ExpectedTotal
+    )
+    {
+        public override string ToString() =>
+            (!ProductCodes.Any() ? "none" : string.Join(',', ProductCodes)) +
+            $" - expecting {ExpectedTotal}";
     }
 }

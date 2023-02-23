@@ -1,28 +1,41 @@
 using System.Collections.Generic;
+using Terminal.Models;
 using Terminal.Services;
+using TerminalUnitTests.Builders.Models;
 
 namespace TerminalUnitTests.Builders.Services;
 
 public static class PricingServiceBuilder
 {
-    private static readonly Dictionary<string, decimal> DefaultPricing = new()
+    private static readonly IProductPricing[] DefaultPricing =
     {
-        { "A", 1.25m }, { "B", 4.25m }, { "C", 1m }, { "D", 0.75m },
+        SingleAndBulkUnitPriceBuilder.Build(
+            withProductCode: "A",
+            withSingleUnitPrice: 1.25m,
+            withBulkUnitSize: 3,
+            withBulkUnitPrice: 3m
+        ),
+        SingleUnitPriceBuilder.Build(
+            withProductCode: "B",
+            withUnitPrice: 4.25m
+        ),
+        SingleAndBulkUnitPriceBuilder.Build(
+            withProductCode: "C",
+            withSingleUnitPrice: 1m,
+            withBulkUnitSize: 6,
+            withBulkUnitPrice: 5m
+        ),
+        SingleUnitPriceBuilder.Build(
+            withProductCode: "D",
+            withUnitPrice: 0.75m
+        ),
     };
 
     public static PricingService Build(
-        Dictionary<string, decimal>? withPrices = null
+        IEnumerable<IProductPricing>? withPricing = null
     ) =>
-        new(withPrices ?? DefaultPricing);
+        new(withPricing ?? DefaultPricing);
 
-    public static PricingService BuildWithSinglePrice(
-        string? withProductCode = null,
-        decimal? withProductPrice = null
-    ) =>
-        Build(
-            withPrices: new Dictionary<string, decimal>
-            {
-                { withProductCode ?? "Foo", withProductPrice ?? 3m }
-            }
-        );
+    public static PricingService Build(IProductPricing withPricing) =>
+        new(new[] { withPricing });
 }

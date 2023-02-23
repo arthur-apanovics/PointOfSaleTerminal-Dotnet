@@ -4,7 +4,7 @@ namespace Terminal.Helpers;
 
 public static class ProductValidationHelper
 {
-    public static void ValidateProductCodeOrThrow(string code)
+    public static void ThrowIfProductCodeNotValid(string code)
     {
         if (string.IsNullOrWhiteSpace(code) || code.Contains(' '))
             throw new ArgumentException(
@@ -12,7 +12,7 @@ public static class ProductValidationHelper
             );
     }
 
-    public static void ValidatePriceOrThrow(decimal price)
+    public static void ThrowIfProductPriceNotValid(decimal price)
     {
         if (price <= 0)
             throw new ArgumentException("Price cannot be zero or negative");
