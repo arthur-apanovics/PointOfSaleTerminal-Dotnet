@@ -1,7 +1,8 @@
 using TerminalUnitTests.Builders.Models;
 using TerminalUnitTests.Builders.PricingStrategies;
 
-namespace TerminalUnitTests.PricingStrategyTests.BulkPricingStrategyTests;
+namespace TerminalUnitTests.PricingStrategyTests.
+    BulkDiscountPricingStrategyTests;
 
 public class HasDiscountedPricingTests
 {
